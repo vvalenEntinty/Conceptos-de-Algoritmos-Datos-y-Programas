@@ -1,0 +1,9 @@
+program ej;
+var
+	num1,num2,total:integer;
+begin
+	read(num1);
+	read(num2);
+	total:=num1+num2;
+	writeln('se ingresaron los valores: ',total);
+end.
