@@ -1,0 +1,11 @@
+program ej;
+var
+	r,d:real;
+	
+begin
+	read(d);
+	R:=d/2;
+	writeln('radio: ',r:0:2);
+	writeln('area: ', (3.14*(r*2)):0:2);
+	writeln('perimetro: ',(d*3.14):0:2);
+end.
