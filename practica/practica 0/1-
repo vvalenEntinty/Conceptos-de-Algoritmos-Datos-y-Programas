@@ -1,0 +1,8 @@
+program ej;
+var
+	num1,num2:integer;
+begin
+	read(num1);
+	read(num2);
+	writeln('se ingresaron los valores: ',num2,'  y ',num1);
+end.
