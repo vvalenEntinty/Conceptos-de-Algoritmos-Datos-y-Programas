@@ -1,0 +1,10 @@
+program ej;
+var
+	num:real;
+begin
+read(num);
+if (num < 0) then
+	writeln(-num:0:2)
+else
+	write(num:0:2);
+end.
