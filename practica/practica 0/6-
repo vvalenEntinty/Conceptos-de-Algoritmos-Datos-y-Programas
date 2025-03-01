@@ -1,0 +1,14 @@
+program ej;
+var
+	monto,valor,porc,resultado:real;
+begin
+	writeln('monto total del dolar');read(monto);
+	
+	writeln('valor del dolar a dia de hoy');read(valor);
+	
+	writeln('porcentaje en pesos');read(porc);
+	
+	resultado:= (monto*valor) + (monto*(porc/100));
+	
+	writeln('La transaccion sera de ',resultado:0:2);
+	end.
