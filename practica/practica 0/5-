@@ -1,0 +1,12 @@
+program ej;
+var
+	x,y:integer;
+begin
+	writeln('cuantos caramelos tiene el kioskero');read(x);
+	writeln('cuantos clientes hay?');read(y);
+	writeln('se cobrara ', (x*1.60):0:2);
+	if (x>y) then
+		writeln('Los Caramelos que recibe cada cliente ',((x-y)/y):0:2,' caramelos que se queda el kioskero ',(x-y))
+	else
+		writeln('Los Caramelos que recibe cada cliente es ',(x/y):0:2,' caramelos que se queda el kioskero 0');
+end.
