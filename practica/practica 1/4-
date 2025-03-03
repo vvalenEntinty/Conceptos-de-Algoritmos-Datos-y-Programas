@@ -1,0 +1,9 @@
+program ej;
+var
+	x,primero:real;
+begin
+	read(x);
+	primero:=x;
+	while (x <> primero*2 ) do 
+		read(x);
+end.
