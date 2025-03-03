@@ -1,0 +1,15 @@
+program ej;
+var
+	legajo:integer;
+	prom:real;
+begin
+writeln('ingrese legajo');
+	read(legajo);
+	while (legajo <> -1) do begin
+writeln('ingrese promedio');
+		read(prom);
+writeln('ingrese legajo');
+		read(legajo);
+end;
+
+end.
