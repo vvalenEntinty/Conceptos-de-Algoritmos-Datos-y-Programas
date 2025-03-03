@@ -1,0 +1,15 @@
+program ej;
+var
+	x,primero:real;
+	cont:integer;
+begin
+	cont:=0;
+	read(x);
+	primero:=x;
+	while (x <> primero*2 ) and (cont <> 10) do begin
+		read(x);
+		cont:=cont +1;
+	end;
+	if (cont = 10) then
+		writeln('no se ha ingreado el doble de x');
+end.
