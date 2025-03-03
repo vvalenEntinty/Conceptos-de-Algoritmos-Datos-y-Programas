@@ -1,15 +1,30 @@
 program ej;
 var
-	legajo:integer;
+	prommayor,legajo,porc,cantalu:integer;
 	prom:real;
 begin
-writeln('ingrese legajo');
+porc:=0;
+	cantalu:=0;
+	prommayor:=0;
+	writeln('ingrese legajo');
 	read(legajo);
 	while (legajo <> -1) do begin
-writeln('ingrese promedio');
-		read(prom);
-writeln('ingrese legajo');
-		read(legajo);
+		writeln('ingrese promedio');
+			read(prom);
+		
+		if(prom > 6.5) then //cuento la cantidad de alumnos con promedio mayor a 6.5
+			prommayor:=prommayor + 1;
+	
+		cantalu:=cantalu + 1; //cuento la cantidad de alumnos leidos
+
+		if (prom >8.5) and (legajo < 2500) then
+			 porc:=porc + 1;
+
+		writeln('ingrese legajo');
+			read(legajo);
 end;
+writeln('Alumnos leidos: ',cantalu);
+writeln('Alumnos con promedio mayor a 6.5: ',prommayor);
+writeln((cantalu/porc):0:2);
 
 end.
