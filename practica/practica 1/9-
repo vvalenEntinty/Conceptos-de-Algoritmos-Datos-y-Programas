@@ -1,0 +1,33 @@
+program SumaResta;
+var
+    simbolo: char;
+    suma, num: integer;
+begin
+    suma := 0;
+    writeln('Ingrese un simbolo de suma (+) o resta (-):');
+    readln(simbolo);
+
+    // Verificar si el símbolo es válido
+    if (simbolo <> '+') and (simbolo <> '-') then
+        writeln('No se leyó un símbolo válido')
+    else
+    begin
+        // Leer números hasta que se ingrese un 0
+        writeln('Ingrese una secuencia de números que finalice en 0:');
+        repeat
+            readln(num);
+            if (simbolo = '+') then
+                suma := suma + num  // Sumar los números
+            else if (simbolo = '-') then
+            begin
+                if (suma = 0) then
+                    suma := num  // El primer número no se resta, se asigna directamente
+                else
+                    suma := suma - num;  // Restar los números siguientes
+            end;
+        until (num = 0);
+
+        // Mostrar el resultado
+        writeln('El resultado es: ', suma);
+    end;
+end.
