@@ -1,0 +1,20 @@
+program ej;
+var
+	codigo:integer;
+	PrecioActual,NuevoPrecio,incrementomaximo:real;
+begin
+	repeat 
+	writeln('Ingrese el codigo');
+		readln(codigo);
+		writeln('ingrese el codigo actual');
+		readln(precioActual);
+		writeln('ingrese el nuevo precio');
+		readln(NuevoPrecio);
+		incrementomaximo:=precioactual*0.10;
+		
+		if(NuevoPrecio > (precioactual+incrementomaximo))then
+     writeln('El aumento de precio del producto ', codigo, ' es superior al 10%')
+        else
+            writeln('El aumento de precio del producto ', codigo, ' no supera el 10%');
+	until (codigo = 32767)
+end.
