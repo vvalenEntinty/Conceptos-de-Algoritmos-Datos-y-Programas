@@ -1,0 +1,21 @@
+program ej;
+var
+	car1,car2,car3:char;
+	esvocal1,esvocal2,esvocal3:boolean;
+begin
+writeln('Ingrese el primer carácter:');
+    readln(car1);
+    writeln('Ingrese el segundo carácter:');
+    readln(car2);
+    writeln('Ingrese el tercer carácter:');
+    readln(car3);
+	
+	esvocal1:=(car1 ='a') or (car1='e')or(car1='i') or(car1='o') or(car1='u');
+	esvocal2:=(car2 ='a') or (car2='e')or(car2='i') or(car2='o') or(car2='u');
+	esvocal3:=(car3 ='a') or (car3='e')or(car3='i') or(car3='o') or(car3='u');
+	
+	if esvocal1 and esvocal2 and esvocal3 then
+		writeln('los tres son vocales')
+	else
+		writeln('al menos uno no es vocal');
+end.
