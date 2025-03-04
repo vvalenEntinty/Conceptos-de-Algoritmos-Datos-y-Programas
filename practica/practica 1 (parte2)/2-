@@ -1,0 +1,15 @@
+program ej;
+var
+num,i,mayor,pos:integer;
+begin
+mayor:=-9999;
+writeln('ingrese 10 numeros');
+	for i := 1 to 10 do begin
+		readln(num);
+		if(num>mayor) then begin
+			mayor:=num;
+			pos:=i;
+		end;
+	end;
+	writeln('el numero mas grande leido fue: ',mayor,' en la posicion ',pos );
+end.
