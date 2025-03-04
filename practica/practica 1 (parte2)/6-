@@ -1,0 +1,35 @@
+program ej;
+type
+rango_codigo=1..200;
+var
+	cod1,cod2,i,cant:integer;
+	codigo:rango_codigo;
+	min1,min2,precio:real;
+begin
+min1:=9999;
+cant:=0;
+cod1:=0;
+min2:=9999;
+	for i := 1 to 200 do begin
+		writeln('Ingrese el codigo');
+		readln(codigo);
+		writeln('Ingrese el precio');
+		readln(precio);
+		if(precio<min1) then begin
+			min2:=min1;
+			cod2:=cod1;
+			min1:=precio;
+			cod1:=codigo;
+		end
+		else
+		if(precio<min2) then begin
+			min2:=precio;
+			cod2:=codigo;
+		end;
+		if(precio > 16) and (codigo mod 2 = 0) then
+			cant:=cant+ 1;
+		
+	end;
+	writeln ('codigo 1: ',cod1, '  codigo 2: ',cod2);
+	writeln('la cnatidad de productos de mas de 16 pesos con codigo par: ',cant);
+end.	
