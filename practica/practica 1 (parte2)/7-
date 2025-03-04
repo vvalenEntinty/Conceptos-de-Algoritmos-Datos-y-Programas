@@ -1,0 +1,47 @@
+program ej;
+var
+	primero1,primero2,ultimo1,ultimo2,piloto:string;
+	min1,min2,max1,max2,tiempo:real;
+	i:integer;
+
+begin
+min1:=9999;
+min2:=9999;
+max1:=-9999;
+max2:=-9999;
+primero1:='';
+primero2:='';
+ultimo1:='';
+ultimo2:='';
+
+	for i := 1 to 5 do begin
+		writeln('Ingresar el nombre del piloto');
+		readln(piloto);
+		writeln('Ingresar el tiempo en que termino la carrera');
+		readln(tiempo);
+		if (tiempo<min1) then begin
+			min2:=min1;
+			primero2:=primero1;
+			min1:=tiempo;
+			primero1:=piloto;
+		end
+		else
+		if(tiempo<min2) then begin
+			min2:=tiempo;
+			primero2:=piloto;
+		end;
+		if(tiempo>max1) then begin
+			max2:=max1;
+			ultimo2:=ultimo1;
+			max1:=tiempo;
+			ultimo1:=piloto;
+		end
+		else
+		if(tiempo<max2)then begin
+			max2:=tiempo;
+			ultimo2:=piloto;
+		end;
+	end;
+	writeln('los dos pilotos que terminar ultimos: ',ultimo1,' y ',ultimo2);
+	writeln('los dos pilotos que terminar primeros: ',primero1,' y ',primero2);
+end.
