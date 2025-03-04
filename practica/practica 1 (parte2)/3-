@@ -1,0 +1,22 @@
+program ej;
+var
+	siete,aprobado:integer;
+	nombre:string;
+	nota:1..10;
+begin
+aprobado:=0;
+siete:=0;
+	repeat
+		writeln('Ingrese el nombre del alumno');
+		readln(nombre);
+		writeln('Ingrese la nota entre 1 y 10');
+		readln(nota);
+		if(nota >= 8) then
+			aprobado:=aprobado+1;
+		if(nota = 7) then
+			siete:=siete +1;
+	
+	until(nombre = 'Zinedine Zidane');
+writeln('alumnos aprobados: ',aprobado);
+writeln('alumnos que sacaron 7: ',siete);
+end.
