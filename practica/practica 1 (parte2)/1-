@@ -1,0 +1,17 @@
+program ej;
+var
+	i,total,may,num:integer;
+begin
+total:=0;
+may:=0;
+
+writeln('ingrese 10 numeros');
+	for i := 1 to 10 do begin
+		read(num);
+		total:=total + num;
+		if (num>5) then
+			may:=may+ 1;
+	end;
+	writeln('la suma total es ',total);
+	writeln('la cantidad de numeros mayores a 5 es ',may);
+end.
