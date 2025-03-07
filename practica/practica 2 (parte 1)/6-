@@ -1,0 +1,20 @@
+program ej;
+ 
+procedure Maximo;
+var
+	num,max:integer;
+begin
+max:=0;
+repeat
+	writeln('Ingrese un numero | Ingrese un negativo para finalizar');
+	readln(num);
+	if (num mod 2 = 0)then
+		if (num>max) then
+			max:=num;
+	until(num <0);
+	writeln('El numero par mas alto leido fue: ',max);
+end;
+
+begin
+	Maximo;
+end.
