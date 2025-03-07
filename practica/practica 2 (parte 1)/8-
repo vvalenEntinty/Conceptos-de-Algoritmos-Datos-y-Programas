@@ -1,0 +1,4 @@
+a)i) El problema que encuentro en el submodulo es que al estar dentro del procedure Leer, no se puede utilizar en el programa principal como si fuese una function declarada aparte 
+ii) se puede solucionar sacando el function dentro del procedure 
+
+b) los valores que no estaria cubriendo son los caracteres especiales o los numeros
