@@ -1,0 +1,20 @@
+program alcance3;
+var a: integer;
+procedure uno;
+var b: integer;
+
+1
+
+REDICTADO CADP – Práctica 2 (parte 1) – Funciones y procedimientos 2023
+
+begin
+b:= 2;
+writeln(b);
+end;
+begin
+a:= 1;
+uno;
+writeln(a, b);
+end.
+
+El error es que b no es declarado como una variable global, por lo tanto no puedo imprimirlo fuera del procedure 
