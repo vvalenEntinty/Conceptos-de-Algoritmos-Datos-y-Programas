@@ -1,0 +1,22 @@
+Realizar un programa que lea caracteres hasta leer el '='. Al finalizar informe la cantidad leida de todos los tipos.
+
+program ej;
+var
+car:char;
+min,may,dig,esp:integer;
+begin
+min:=0;may:=0;dig:=0;esp:=0;
+repeat
+read(car);
+	case (car) of 
+		'!'..'/':esp:=esp + 1;
+		'0'..'9':dig:=dig+1;
+		'A'..'Z':may:=may +1;
+		'a'..'z': min:=min +1;
+	end;
+until (car = '=');
+writeln('especiales ',esp);
+writeln('digitos ',dig);
+writeln('mayus ',may);
+writeln('minus ', min);
+end.
