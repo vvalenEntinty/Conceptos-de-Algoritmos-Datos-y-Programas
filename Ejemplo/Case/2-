@@ -6,15 +6,17 @@ car:char;
 min,may,dig,esp:integer;
 begin
 min:=0;may:=0;dig:=0;esp:=0;
-repeat
-read(car);
+read (car);
+while (car <> '=') do begin
 	case (car) of 
-		'!'..'/':esp:=esp + 1;
-		'0'..'9':dig:=dig+1;
-		'A'..'Z':may:=may +1;
 		'a'..'z': min:=min +1;
+		'A'..'Z':may:=may +1;
+		'0'..'9':dig:=dig+1;
+		else
+			esp:=esp +1;
 	end;
-until (car = '=');
+	read(car);
+end;	
 writeln('especiales ',esp);
 writeln('digitos ',dig);
 writeln('mayus ',may);
