@@ -1,0 +1,26 @@
+Program ejercicio4;
+function EsDoble (numA,numB:integer):boolean;
+begin
+EsDoble:=(numA*2=numB);
+end;
+
+var
+	numA,numB,dobles,total:integer;
+begin
+dobles:=0;total:=0;
+	writeln('Ingrese numA');
+	readln(numA);
+	writeln('Ingrese numB');
+	readln(numB);
+	while(numA <> 0) and (numB <> 0) do begin
+	total:=total + 1;
+	if (EsDoble(numA,numB)) then
+			dobles:=dobles +1;
+	writeln('Ingrese numA');
+	readln(numA);
+	writeln('Ingrese numB');
+	readln(numB);
+	end;
+	writeln('total de pares leidos: ',total);
+	writeln('cantidad de pares en los que numB es el doble de numA: ',dobles);
+end.
