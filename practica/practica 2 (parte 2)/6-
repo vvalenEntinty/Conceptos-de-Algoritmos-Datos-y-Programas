@@ -1,0 +1,57 @@
+program ejercicio4;
+
+procedure LeerProductos(var precio: real; var codigo: integer; var tipo: string);
+begin
+    writeln('Ingrese el precio:');
+    readln(precio);
+    writeln('Ingrese el código:');
+    readln(codigo);
+    writeln('Ingrese el tipo:');
+    readln(tipo);
+end;
+
+procedure DosBaratosYPantalonCaro(
+    codigo: integer; precio: real; tipo: string;
+    var barato1, barato2, max: real; 
+    var codBarato1, codBarato2, codCaro: integer);
+begin
+    { Verifica los dos productos más baratos }
+    if (precio < barato1) then begin
+        barato2 := barato1;
+        codBarato2 := codBarato1;
+        barato1 := precio;
+        codBarato1 := codigo;
+    end
+    else if (precio < barato2) then begin
+        barato2 := precio;
+        codBarato2 := codigo;
+    end;
+
+    { Verifica el pantalón más caro }
+    if (tipo = 'pantalon') and (precio > max) then begin
+        max := precio;
+        codCaro := codigo;
+    end;
+end;
+
+var
+    barato1, barato2, precio, total, max: real;
+    tipo: string;
+    codCaro, codBarato1, codBarato2, codigo, i: integer;
+begin
+    barato1 := 9999; barato2 := 9999;
+    codBarato1 := -1; codBarato2 := -1;
+    max := 0; codCaro := -1;
+    total := 0;
+
+    for i := 1 to 100 do begin
+        LeerProductos(precio, codigo, tipo);
+        DosBaratosYPantalonCaro(codigo, precio, tipo, barato1, barato2, max, codBarato1, codBarato2, codCaro);
+        total := total + precio;
+    end;
+
+    writeln('Los dos productos más baratos son: Código ', codBarato1, ' con precio ', barato1, 
+            ' y Código ', codBarato2, ' con precio ', barato2);
+    writeln('El código del pantalón más caro es: ', codCaro);
+    writeln('El precio promedio es: ', total / 100:0:2);
+end.
