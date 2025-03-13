@@ -1,0 +1,26 @@
+Encontrar los 6 errores que existen en el siguiente programa. Utilizar los comentarios entre llaves como guía,
+indicar en qué línea se encuentra cada error y en qué consiste:
+
+1. program ejercicio5;
+2. { suma los números entre a y b, y retorna el resultado en c }
+3. procedure sumar(a, b, c : integer) // NO RETORNA LOS VALORES EN C YA QUE ESTAN PASADOS POR VALOR
+4. var
+5. suma : integer;
+6. begin
+7. // SUMA NO ESTA INICIALIZADO 
+8. for i := a to b do
+9. suma := suma + i ;  
+10. c := c + suma; 
+11. end;
+12. var
+13. result : integer;
+14. begin
+15. result := 0;
+16. readln(a); readln(b); // A Y B NO SE DECLARAN COMO VARIABLES EN NINGUN MOMENTO 
+17. sumar(a, b, 0); // SE MANDA UNA CONSTANTE EN VEZ DE LA VARIABLE RESULT 
+18. write(‘La suma total es ‘,result);
+19. { averigua si el resultado final estuvo entre 10 y 30}
+20. ok := (result >= 10) or (result <= 30); // LA OPERACION LOGICA CORRECTA ES AND // LA VARIABLE OK NO SE DECLARA EN NINGUN MOMENTO
+21. if (not ok) then
+22. write (‘La suma no quedó entre 10 y 30’);
+23. end.
