@@ -1,0 +1,27 @@
+Program ejercicio;
+
+procedure CantYsuma(num:integer;var cant,suma:integer);
+var
+	dig:integer;
+begin
+	while (num <> 0) do begin
+		dig:=num mod 10;
+		cant:=cant +1;
+		suma:=suma+dig;
+		num:=num div 10;
+	end;	
+end;
+
+var
+	num,cant,suma:integer;
+begin
+	cant:=0;
+	repeat 
+	suma:=0;
+	writeln('Ingresar un numero entero');
+	readln(num);
+	CantYsuma(num,cant,suma);
+	until (suma = 10);
+writeln('cantidad total de digitos leidos ',cant);
+end.
+	
