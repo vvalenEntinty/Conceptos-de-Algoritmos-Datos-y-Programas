@@ -1,0 +1,29 @@
+Program ejercicio;
+
+procedure AnalizarNumeros (num:integer);
+var
+	suma,impares,dig:integer;
+begin
+suma:=0;impares:=0;
+	while(num <> 0) do begin
+		dig:=num mod 10;
+		if (dig mod 2 = 0) then
+			suma:=suma + dig
+			else
+				impares:=impares +1;
+		num:=num div 10;
+	end;
+writeln('la suma de sus dig pares: ',suma);
+writeln('la cantidad de digitos impares: ',impares);
+end;
+
+var
+num:integer;
+begin
+	writeln('Ingrese una secuencia de numeros enteros');
+	readln(num);
+	while (num<> 1234) do begin
+		AnalizarNumeros(num);
+		readln(num);
+end;
+end.
