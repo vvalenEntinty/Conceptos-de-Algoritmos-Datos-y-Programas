@@ -1,0 +1,56 @@
+Program ejercicio;
+procedure LeerAlumno (var num:integer; var ape,nom:string);
+begin
+	writeln('Ingrear numero de inscripcion');readln(num);
+	writeln('Ingrear apellido');readln(ape);
+	writeln('Ingrear nombre');readln(nom);
+end;
+
+procedure MinMax  (num:integer; ape,nom:string;var min1,min2,max1,max2:integer;var ape1,ape2,nom1,nom2:string);
+begin
+	if(min1 > num) then begin
+		min2:=min1;
+		ape2:=ape1;
+		min1:=num;
+		ape1:=ape;
+	end
+	else
+	if (min2>num) then begin
+		min2:=num;
+		ape2:=ape;
+	end;
+	if (max1 < num) then begin
+		max2:=max1;
+		nom2:=nom1;
+		max1:=num;
+		nom1:=nom;
+	end
+	else
+	if (max2 < num) then begin
+		max2:=num;
+		nom2:=nom;
+	end;
+end;
+
+procedure Porcentaje (num:integer; var cant,total:integer);
+begin
+		total:=total+1;
+		if (num mod 2 =0) then
+			cant:=cant+1;
+end; 
+var
+	min1,min2,max1,max2,num,cant,total:integer;
+	ape1,ape2,ape,nom,nom1,nom2:string;
+begin
+min1:=9999;min2:=9999;
+max1:=0;max2:=0; cant:=0; total:=0;
+  ape1 := ''; ape2 := ''; nom1 := ''; nom2 := '';
+	repeat
+		LeerAlumno (num,ape,nom);
+		MinMax(num,ape,nom,min1,min2,max1,max2,ape1,ape2,nom1,nom2);
+		Porcentaje(num,cant,total);
+	until (num = 1200);
+	writeln('Apellido de los dos alumnos con numeros de inscripcion mas chicos: ',ape1,' y ', ape2);
+	writeln('Nombre de los dos alumnos con numeros de inscripcion mas Grandes: ',nom1,' y ', nom2);
+	writeln('el porcentaje es: ',(cant/total):0:2);
+end.
