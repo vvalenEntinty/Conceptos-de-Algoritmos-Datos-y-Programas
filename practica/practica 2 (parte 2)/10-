@@ -1,0 +1,49 @@
+program ej;
+
+function EsVocal(car: char): boolean;
+begin
+    EsVocal := (car = 'a') or (car = 'e') or (car = 'i') or (car = 'o') or (car = 'u');
+end;
+
+function EsConsonante(car: char): boolean;
+begin
+    EsConsonante := (car >= 'a') and (car <= 'z') and not EsVocal(car);
+end;
+
+var 
+    car: char;
+    CumpleA, CumpleB: boolean;
+begin
+    CumpleA := true;
+    CumpleB := true;
+    
+    writeln('Ingrese una secuencia de caracteres:');
+    readln(car);
+    
+    { Analizar la secuencia A }
+    while (car <> '$') do 
+    begin
+        if not EsVocal(car) then
+            CumpleA := false;
+        readln(car);
+    end;
+
+    { Avanzar al siguiente caracter después de $ }
+    readln(car);
+
+    { Analizar la secuencia B }
+    while (car <> '#') do 
+    begin
+        if not EsConsonante(car) then
+            CumpleB := false;
+        readln(car);
+    end;
+
+    { Verificar el cumplimiento del patrón }
+    if not CumpleA then
+        writeln('La secuencia A contiene caracteres que no son vocales.');
+    if not CumpleB then
+        writeln('La secuencia B contiene caracteres que no son consonantes.');
+    if CumpleA and CumpleB then
+        writeln('La secuencia cumple con el patron A$B#.');
+end.
