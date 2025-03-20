@@ -1,0 +1,46 @@
+program ej;
+ 
+ procedure AnalizarA (var car:char;var cant:integer;var peso:boolean);
+ begin
+	writeln('Ingresar caracteres');
+	readln(car);
+	while (car <> '%') do 
+	begin
+	if (car = '$') then
+		peso:=true
+	else
+	if (car <> '$') then
+	cant:=cant+1;
+	readln(car);
+	end;
+ end;
+ 
+ procedure AnalizarB(var car:char; var arroba:integer);
+ begin
+		writeln('Ingresar caracteres');
+		readln(car);
+		if (car = '@') then
+		arroba:=arroba+1;
+ end;
+ var
+	arroba,cant,i:integer;
+	car:char;
+	peso:boolean;
+begin
+peso:=false;
+cant:=0;arroba:=0;
+	AnalizarA(car,cant,peso);
+	for i := 1 to cant do
+	begin
+		AnalizarB(car,arroba);
+	end;
+	if(peso) then
+		writeln('No se cumple A')
+	else
+		writeln('Se cumple A');
+	
+	if (arroba = 3) then
+		writeln('Se cumple B')
+	else
+		writeln('No se cumple B');
+end.
