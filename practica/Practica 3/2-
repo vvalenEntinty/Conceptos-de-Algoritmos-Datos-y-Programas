@@ -1,0 +1,39 @@
+program casamientos;
+type
+dia=1..30;
+mes=1..12;
+
+	casamiento=record
+		dia:integer;
+		mes:integer;
+		anio:integer;
+	end;
+
+procedure leer (var c:casamiento);
+begin
+	writeln('Ingresar el dia');read(c.dia);
+	writeln('Ingresar el mes');read(c.mes);
+	writeln('Ingresar el anio');read(c.anio);
+end;
+
+procedure veranoydias(c:casamiento; var cantverano,cantdias:integer);
+begin	
+	if (c.mes=1) or (c.mes =2) or (c.mes=3) then 
+		cantverano:=cantverano + 1;
+	if(c.dia<=10) then
+		cantdias:=cantdias +1;
+end;
+var
+	c:casamiento;
+	cantdias,cantverano:integer;
+begin
+	cantdias:=0;cantverano:=0;
+	leer(c);
+	while (c.anio <> 2020) do
+	begin
+		veranoydias(c,cantverano,cantdias);
+		leer(c);
+	end;
+	writeln('cantidad de casamientos en verano: ',cantverano);
+	writeln('cantidad de casamientos en los primeros 10 dias: ',cantdias);
+end.
