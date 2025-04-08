@@ -1,0 +1,33 @@
+program dos;
+
+function suma (x,y:integer):integer;
+var
+	total,i:integer;
+begin
+	total:=0;
+	for i:= x to y do 
+		total:= total + i;
+	suma:=total;
+end;
+
+function producto (x,y:integer):integer;
+var
+	total,i:integer;
+begin
+	total:=1;
+	for i := x to y do
+		total:=total * i;
+producto:=total;
+end;	
+
+
+var
+	x,y,i:integer;
+begin
+	for i := 1 to 2 do begin
+		writeln('numero x');readln(x);
+		writeln('numero y');readln(y);
+		writeln('la suma es: ',suma(x,y));
+		writeln('el producto es: ',producto (x,y));
+	end;
+end.
