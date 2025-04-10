@@ -1,0 +1,35 @@
+program ej;
+
+procedure modulo (radio:real;var diametro,perimetro:real);
+begin
+	perimetro:= ((radio*2)*3.14);
+	diametro:=(radio*2);
+end;
+
+procedure leer (var nombre:string; var distancia,radio:real);
+begin
+	writeln('Ingrese el nombre: ');readln(nombre);
+	writeln('Ingrese la distancia: ');readln (distancia);
+	writeln('Ingrese la radio: ');readln (radio);
+end;
+
+
+
+var
+	nombre:string;
+	diametro,perimetro,distancia,radio:real;
+	cantSup:integeR;
+begin
+diametro:=0; perimetro:=0;cantSup:=0;
+
+	leer(nombre,distancia,radio);
+	while (radio <> 0) do 
+	begin
+		modulo(radio,diametro,perimetro);
+		if (diametro<= 12700)  and (diametro > 6780) then
+			writeln('nombre y distancia del planeta con diametro inferior al de la tierra y superior al de marte: ',nombre,'  ',distancia);
+		if (perimetro>439264) then
+			cantSup:=cantSup+1;
+	end;
+	writeln('cantidad de planetas con perimetro superior al del planeta jupiter: ',cantsup);
+end.
