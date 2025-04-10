@@ -1,0 +1,43 @@
+program ej;
+
+procedure LeerEmpresas (var codigo,inversiones:integer; var montoDedicado,montoTotal:real);
+var
+	i:integer;
+begin
+montoTotal:=0;
+
+	writeln('codigo: ');readln(codigo);
+	writeln('inversiones: ');	readln(inversiones);
+	for i := 1 to inversiones do begin
+		writeln('monto dedicado: ');	
+		readln(montoDedicado);
+		MontoTotal:= montoDedicado;
+	end;
+end;
+
+procedure MaxMonto (codigo:integer;montoTotal:real; var codMax:integer; var montoMax:real);
+begin
+	if (montoMax < montoTotal) then 
+	begin
+		codMax:=codigo;
+		montoMax:=montoTotal;
+	end;
+end;
+
+var
+	codigo,inversiones,codMax,cantMas50K:integer;
+	montoDedicado,montoTotal,montoMax:real;
+begin
+montoMax:=-1; cantMas50K:=0;
+	repeat
+	LeerEmpresas(codigo,inversiones,montoDedicado,montoTotal);
+	writeln('el monto promedio de sus inversiones es: ',montoTotal/inversiones:0:2);
+	MaxMonto(codigo,montoTotal,codMax,montoMax);
+	if (montoTotal > 50000) then
+		cantMas50k:=cantMas50K + 1;
+	
+	until (codigo = 100);
+	writeln('codigo de la empresa con mayor monto total invertido: ',codMax);
+	writeln('cantidad de empresas con inversiones de mas de $50000: ',cantMas50K);
+end.
+	
