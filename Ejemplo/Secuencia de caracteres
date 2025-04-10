@@ -1,0 +1,86 @@
+
+
+program ejercicio;
+
+function verificarX (car:char):boolean;
+begin
+	verificarX:=(car>='0') and (car <='9');
+end;
+	
+function verificarY (car:char):boolean;
+begin
+	verificarY:= (car='a')or(car='e')or (car='i')or (car='o')or (car='u');
+end;
+
+procedure patronX (var cumpleX:boolean);
+var
+car:char;
+begin
+writeln('escriba & para finalizar con el patron X');
+readln(car);
+	while (car <> '&') and (cumpleX) do 
+	begin
+		if (not verificarX(car)) then
+			cumpleX:=false
+		else
+			readln(car);
+		end;
+end;
+
+procedure patronY (var cumpleY:boolean; var cant:integer);
+var
+car:char;
+begin
+	writeln('escriba & para finalizar con el patron Y');
+	readln(car);
+		while  (car <> '&') and (cumpleY) do 
+		begin
+			if (not verificarY(car))then 
+				cumpleY:=false
+				else begin
+					cant:=cant +1;
+					readln(car);
+				end;
+		end;
+end;
+
+procedure patronZ (var cumpleZ:boolean; cant:integer);
+var
+	c:char;
+	long:integer;
+begin
+	long:=0;
+	readln(c);
+	while (c <> '*') do begin
+		long:=long + 1;
+		readln(c);
+	end;
+	if (long = cant*2) then
+		cumpleZ:= true;
+end;
+
+var
+	cant:integer;
+	cumple:boolean;
+	
+begin
+cumple:=true;
+
+	patronX(cumple);
+	if (cumple) then begin
+		cant:=0;
+		patronY(cumple,cant);
+		if (cumple) then begin
+			patronZ(cumple,cant);
+			if (cumple ) then
+					writeln('se cumple el patron')
+					else
+						writeln('no cumple con Z');
+			end else
+				writeln('no cumple Y');
+		end else
+			writeln('no cumple X');
+end.
+		
+			
+			
