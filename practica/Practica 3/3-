@@ -1,0 +1,64 @@
+program impares;
+type
+	escuela=record
+		cue:integer;
+		nombre:string;
+		docentes:integer;
+		alumnos:integer;
+		localidad:string;
+	end;
+	
+	procedure LeerEscuelas(var e:escuela);
+	begin
+		readln(e.cue);
+		readln(e.nombre);
+		readln(e.docentes);
+		readln(e.alumnos);
+		readln(e.localidad);
+	end;
+		
+	function relacion (e:escuela):real;
+	begin
+		relacion:=e.alumnos/e.docentes;
+	end;
+	
+	procedure maximos (var maxcue1,maxcue2:integer; var maxnom1,maxnom2:string; e:escuela; rel:real; var max1,max2:real);
+	begin
+		if (max1<rel) then
+		begin
+			max2:=max1;
+			maxcue2:=maxcue1;
+			maxnom2:=maxnom2;
+			maxcue1:=e.cue;
+			maxnom1:=e.nombre;
+			max1:=rel;
+		end
+		else
+			if (max2 < rel) then 
+			begin
+				max2:=rel;
+				maxcue2:=e.cue;
+				maxnom2:=e.nombre;
+			end;
+	end;
+	
+	var
+		e:escuela;
+		i,maxcue1,maxcue2,cantsup:integer;
+		maxnom1,maxnom2:string;
+		max1,max2:real;
+	begin
+	cantsup:=0; maxcue1:=0; maxcue2:=0; maxnom1:='';maxnom2:='';
+	
+		for i := 1 to 2400 do 
+		begin
+			LeerEscuelas(e);
+			if (relacion(e) > 24435) then
+				cantsup:=cantsup +1;
+			
+			maximos (maxcue1,maxcue2,maxnom1,maxnom2,e,relacion(e),max1,max2);
+		end;
+		writeln('Cantidad de escuelas con relacion superior a la establecida por la unesco ',cantsup);
+		writeln('Nombres: ',maxnom1, ' y ',maxnom2, ' cue ',maxcue1, ' y ',maxcue2);
+	 
+	end.
