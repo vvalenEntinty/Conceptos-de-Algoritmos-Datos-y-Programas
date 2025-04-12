@@ -1,0 +1,46 @@
+program ejercicio;
+type
+	linea=record
+		numero:integer;
+		minutos_consumidos:real;
+		mb_consumidos:real;
+	end;
+	
+	cliente=record
+		codigo:integer;
+		cant_lineas:integer;
+		lineas:linea;
+	end;
+	
+	procedure LeerClientes (var c:cliente);
+	var
+		i:integer;
+	begin
+		writeln('codigo de cliente');readln(c.codigo);
+		writeln('cantidad de lineas');readln(c.cant_lineas);
+		for i :=1 to c.cant_lineas do 
+		begin
+			writeln('minutos consumidos');readln(c.lineas.minutos_consumidos);
+			writeln('mb consumidos');readln(c.lineas.mb_consumidos);
+		end;
+	end;
+	
+	procedure Cobrar (c:cliente; var minutos,mb:real);
+	begin
+		minutos:=0;mb:=0;
+		minutos:=minutos + (c.lineas.minutos_consumidos*3.40);
+		mb:=mb + (c.lineas.mb_consumidos*1.35);
+	end;
+	
+var
+	c:cliente;
+	minutos,mb:real;
+	i:integer;
+begin
+	for i:= 1 to 9300 do 
+	begin
+		LeerClientes(c);
+		Cobrar(c,minutos,mb);
+		writeln('minutos a cobrar: ',minutos,' mb a cobrar: ',mb);
+	end;
+end.
