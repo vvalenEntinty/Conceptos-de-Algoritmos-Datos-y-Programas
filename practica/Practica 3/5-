@@ -36,7 +36,7 @@ begin
 	while (a.marca <> 'zzz') do 
 	begin
 		marcaact:=a.marca; totalprecio:=0;cantautos:=0;
-		while (marcaact=a.marca) do
+		while (marcaact=a.marca)and (a.marca <> 'zzz') do
 		begin
 			totalprecio:=totalprecio + a.precio;
 			cantautos:=cantautos + 1;
@@ -47,3 +47,4 @@ begin
 	end;
 		writeln(maxmodelo, ' ',maxprecio);
 end.
+
