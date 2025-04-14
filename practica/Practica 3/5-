@@ -1,0 +1,49 @@
+program ejercicio;
+type
+	auto=record
+		marca:string;
+		modelo:string;
+		precio:real;
+	end;
+	
+	procedure leerautos (var a:auto);
+	begin
+		writeln('ingresar la marca');readln(a.marca);
+		writeln('ingresar la modelo');readln(a.modelo);
+		writeln('ingresar la precio');readln(a.precio);
+	end;
+	
+	procedure mascaro (var maxmarca,maxmodelo:string; a:auto; var maxprecio:real);
+	begin
+		if (maxprecio < a.precio) then
+		begin
+			maxmarca:=a.marca;
+			maxmodelo:=a.modelo;
+			maxprecio:=a.precio;
+		end;
+	end;
+	
+var
+	a:auto;
+	cantautos:integer;
+	totalprecio,maxprecio:real;
+	marcaact,maxmarca,maxmodelo:string;
+
+begin
+	maxprecio:=-1;maxmarca:='';maxmodelo:='';
+	
+	leerautos(a);
+	while (a.marca <> 'zzz') do 
+	begin
+		marcaact:=a.marca; totalprecio:=0;cantautos:=0;
+		while (marcaact=a.marca) do
+		begin
+			totalprecio:=totalprecio + a.precio;
+			cantautos:=cantautos + 1;
+			mascaro(maxmarca,maxmodelo,a,maxprecio);
+			leerautos(a);
+		end;
+		writeln('el promedio de ',marcaact,' es ',(totalprecio/cantautos));
+	end;
+		writeln(maxmodelo, ' ',maxprecio);
+end.
