@@ -1,0 +1,51 @@
+program micros;
+type
+	micro=record
+		marca:string;
+		linea:string;
+		cores:integer;
+		reloj:integer;
+		transistores:integer;
+	end;
+	
+	procedure leer (var m:micro);
+	begin
+		readln(m.marca);
+		readln(m.linea);
+		readln(m.cores);
+		readln(m.reloj);
+		readln(m.transistores);
+	end;
+	
+var
+	m:micro;
+	marca1,marca2,marcaAct:string;
+	contMulti,Max,contProc:integer;
+begin
+	max:=0; contMulti:=0; marca1:='';marca2:='';
+	leer(m);
+	while (m.cores <> 0) do
+	begin
+		marcaAct:=m.marca;
+		contProc:=0;
+		while (m.marca =marcaAct) and (m.cores<>0) do
+		begin
+			if (m.cores > 2) and (m.transistores>=22) then
+			begin
+				writeln('marca: ',m.marca);writeln('linea: ',m.linea);
+			end;
+			if (m.transistores=14) then
+				contProc:=contProc + 1;
+			if(m.cores>1) and((m.marca='intel')or (m.marca='AMD')) and (m.reloj>=2)then
+			contMulti:=contMulti+1;
+		end;
+		if (max < contProc) then
+		begin
+			max:=contProc;
+			marca2:=marca1;
+			marca1:=m.marca;
+		end;
+	end;
+	writeln('marca1 ',marca1,' marca2 ',marca2);
+	writeln('cantidad de multicores: ',contMulti);
+end.
