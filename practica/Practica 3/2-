@@ -29,7 +29,7 @@ var
 begin
 	cantdias:=0;cantverano:=0;
 	leer(c);
-	while (c.anio <> 2020) do
+	while (c.anio <> 2020) and (c.anio = 2019) do
 	begin
 		veranoydias(c,cantverano,cantdias);
 		leer(c);
