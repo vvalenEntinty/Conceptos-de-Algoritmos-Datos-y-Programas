@@ -1,0 +1,71 @@
+program CentrosUniversidades;
+type
+	centro=record
+		nombre:string;
+		universidad:string;
+		cant_investigadores:integer;
+		cant_becarios:integer;
+	end;
+	
+	procedure Leer(var c:centro);
+	begin
+	readln(c.nombre);
+	readln(c.universidad);
+	readln(c.cant_investigadores);
+	readln(c.cant_becarios);
+	
+	end;
+	
+	procedure ActualizarMax (var uni_max:string; var max_investigadores:integer;cant:integer;uni:string);
+	begin
+		if (cant<max_investigadores) then 
+		begin
+			uni_max:=uni;
+			cant:=max_investigadores;
+		end;
+	end;
+	
+	procedure ActualizarMin(var centro1,centro2:string; var min1,min2:integer; nombre:string;becarios:integer);
+	begin
+		if (min1 > becarios) then
+		begin
+			centro2:=centro1;
+			centro1:=nombre;
+			min2:=min1;
+			min1:=becarios;
+		end
+		else
+			if (min2>becarios) then
+			begin
+				centro2:=nombre;
+				min2:=becarios;
+			end;
+		end;
+	
+		
+	
+// Programa Principal 
+var
+	c:centro;
+	cont_centros,min_becarios1,min_becarios2,max_investigadores:integer;
+	uni_Actual,uni_Max,centro_min1,centro_min2:string;
+begin
+	min_becarios1:=9999; min_becarios2:=9999; max_investigadores:=0;
+	centro_min1:='';centro_min2:='';uni_max:='';
+	Leer(c);
+	while (c.cant_investigadores <> 0) do
+	begin
+		uni_Actual:=c.universidad;
+		cont_centros:=0;
+		while (c.universidad=uni_Actual) and (c.cant_investigadores <> 0) do 
+		begin
+			cont_centros:=cont_centros +1;
+			ActualizarMax(uni_max,max_investigadores,c.cant_investigadores,c.universidad);
+			ActualizarMin (centro_min1,centro_min2,min_becarios1,min_becarios2,c.nombre,c.cant_becarios);
+			Leer(c);
+		end;
+	writeln(uni_Actual,' tiene ',cont_centros,' centros' );
+	end;
+	writeln('Universidad con mayor cantidad de investigadores en sus centros: ',uni_max);
+	writeln('los dos centros con menor cantidad de becarios: ',centro_min1,' y ',centro_min2);
+end.
