@@ -1,0 +1,80 @@
+{La Comisión Provincial por la Memoria desea analizar la información de los proyectos presentados en el
+programa Jóvenes y Memoria durante la convocatoria 2020. Cada proyecto posee un código único, un título, el
+docente coordinador (DNI, nombre y apellido, email), la cantidad de alumnos que participan del proyecto, el
+nombre de la escuela y la localidad a la que pertenecen. Cada escuela puede presentar más de un proyecto. La
+información se ingresa ordenada consecutivamente por localidad y, para cada localidad, por escuela. Realizar
+un programa que lea la información de los proyectos hasta que se ingrese el proyecto con código -1 (que no
+debe procesarse), e informe:
+● Cantidad total de escuelas que participan en la convocatoria 2018 y cantidad de escuelas por cada
+localidad.
+● Nombres de las dos escuelas con mayor cantidad de alumnos participantes.
+● Título de los proyectos de la localidad de Daireaux cuyo código posee igual cantidad de dígitos pares e
+impares.}
+program ej;
+type
+    info_docente =record     
+        dni:integer;
+        nomyape:string;
+        email:string;
+    end;
+    proyecto=record
+        codigo:integer;
+        titulo:string;
+        docente:info_docente;
+        cant_alumnos:integer;
+        escuela:string;
+        localidad:string;
+    end;
+    
+
+    procedure leer(var p: proyecto);
+begin
+  writeln('Ingrese el código del proyecto: ');
+  readln(p.codigo);
+  
+  writeln('Ingrese el título del proyecto: ');
+  readln(p.titulo);
+  
+  writeln('Ingrese la cantidad de alumnos: ');
+  readln(p.cant_alumnos);
+  
+  writeln('Ingrese la escuela: ');
+  readln(p.escuela);
+  
+  writeln('Ingrese la localidad: ');
+  readln(p.localidad);
+
+  // Leer datos del docente
+  writeln('Ingrese los datos del docente:');
+  
+  writeln('  Ingrese el DNI del docente: ');
+  readln(p.docente.dni);
+  
+  writeln('  Ingrese el nombre y apellido del docente: ');
+  readln(p.docente.nomyape);
+  
+  writeln('  Ingrese el email del docente: ');
+  readln(p.docente.email);
+end;
+
+    
+    
+    
+var
+    p:proyecto;
+    localAct,EscuelaAct:string;
+    
+begin
+    leer(p);
+    while (p.codigo <> -1) do
+    begin
+        localAct:=p.localidad;
+        while (p.localidad = localAct ) do 
+        begin
+            escuelaAct:=p.escuela;
+            
+            leer(p);
+        end;
+        
+    end;
+end.
