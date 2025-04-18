@@ -63,7 +63,7 @@ end;
 var
     p:proyecto;
     localAct,EscuelaAct:string;
-    
+    cantEscuelas:integer;
 begin
     leer(p);
     while (p.codigo <> -1) do
@@ -72,8 +72,13 @@ begin
         while (p.localidad = localAct ) do 
         begin
             escuelaAct:=p.escuela;
-            
-            leer(p);
+            cantEscuelas:=0;
+            while (p.escuela = escuelaAct) do 
+            begin
+                cantEscuelas:=cantEscuelas + 1;
+                leer (p);
+            end;
+            writeln('Cantidad de escuelas en ',localAct,' es : ',cantEscuelas);
         end;
         
     end;
