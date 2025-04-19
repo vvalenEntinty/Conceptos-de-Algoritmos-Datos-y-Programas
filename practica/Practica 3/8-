@@ -57,14 +57,38 @@ begin
   readln(p.docente.email);
 end;
 
+    procedure ActualizarDosNombres (var MaxNombre1,MaxNombre2:string; nombre:string;cant:integer; var Max:integer);
+    begin
+        if (max<cant) then 
+        begin
+            MaxNombre2:=MaxNombre1;
+            MaxNombre1:=nombre;
+            max:=cant;
+        end;
+    end;
     
-    
-    
+    function ParesImpares (cod:integer):boolean;
+    var
+        dig,par,impar:integer;
+    begin
+        par:=0;impar:=0;
+        while (cod <> 0) do 
+        begin
+            dig:= cod mod 10;
+            if (dig mod 2 = 0) then 
+                par:=par +1
+            else    
+                impar:=impar + 1;
+            cod:=cod div 10;
+        end;
+        ParesImpares:=(par=impar);
+    end;    
 var
     p:proyecto;
-    localAct,EscuelaAct:string;
-    cantEscuelas:integer;
+    localAct,EscuelaAct,MaxNombre1,MaxNombre2:string;
+    cantEscuelasLocal,cantEscuelasTotal,MaxParticipantes:integer;
 begin
+    cantEscuelasTotal:=0; MaxNombre2:='';MaxNombre1:='';
     leer(p);
     while (p.codigo <> -1) do
     begin
@@ -72,14 +96,20 @@ begin
         while (p.localidad = localAct ) do 
         begin
             escuelaAct:=p.escuela;
-            cantEscuelas:=0;
-            while (p.escuela = escuelaAct) do 
+            cantEscuelasLocal:=0;
+            MaxParticipantes:=0;
+            while (p.escuela = escuelaAct) and (p.localidad = localAct) do 
             begin
-                cantEscuelas:=cantEscuelas + 1;
+                cantEscuelasLocal:=cantEscuelasLocal + 1;
+                cantEscuelasTotal:=0;
+                ActualizarDosNombres(MaxNombre1,MaxNombre2,p.titulo,p.cant_alumnos,MaxParticipantes);
+                if (ParesImpares(p.codigo))and (p.localidad = 'Daireaux') then
+                    writeln('Proyecto de la localiad de Daireaux con codigo de misma cantidad de pares e impares: ',p.titulo);
                 leer (p);
             end;
-            writeln('Cantidad de escuelas en ',localAct,' es : ',cantEscuelas);
+            writeln('Cantidad de escuelas en ',localAct,' es : ',cantEscuelasLocal);
         end;
-        
     end;
+    writeln('titulo de las dos escuelas con misma cantidad de pares e impares en su codigo: ',MaxNombre1,' y ',MaxNombre2);
+    writeln('cantida total de escuelas: ',cantEscuelasTotal);
 end.
