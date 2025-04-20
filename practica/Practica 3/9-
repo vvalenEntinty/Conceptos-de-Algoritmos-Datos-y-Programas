@@ -1,0 +1,47 @@
+{Realizar un programa que lea información de los candidatos ganadores de las últimas elecciones a intendente
+de la provincia de Buenos Aires. Para cada candidato se lee: localidad, apellido del candidato, cantidad de votos
+obtenidos y cantidad de votantes de la localidad. La lectura finaliza al leer la localidad ‘Zárate’, que debe
+procesarse. Informar:
+● El intendente que obtuvo la mayor cantidad de votos en la elección.
+● El intendente que obtuvo el mayor porcentaje de votos de la elección}
+
+program ejericio;
+type
+    candidato=record    
+        localidad:string;
+        apellido:string;
+        cantvotos:integer;
+        cantvotos_localidad:integer;
+    end;
+    
+procedure leer (var c:candidato);
+begin
+    writeln('ingrese la localidad');readln(c.localidad);
+    writeln('ingrese apellido');readln(c.apellido);
+    writeln('ingrese cantvotos');readln(c.cantvotos);
+    writeln('ingrese cantvotos_localidad');readln(c.cantvotos_localidad);
+end;
+
+procedure ActualizarMaxVotos_Intendente (var maxIntendente:string; var max:integer;cant:integer;intendente:string);
+begin
+    if (max<cant) then 
+    begin   
+        max:=cant;
+        maxIntendente:=intendente;
+        
+    end;
+end;
+
+end;
+var
+    c:candidato;
+    max:integer;
+    maxIntendente:string;
+begin
+max:=-1;
+    repeat 
+        leer(c);
+        ActualizarMaxVotos_Intendente (maxIntendente,Max,c.cantvotos,c.apellido);
+    
+    until (c.localidad = 'Zárate');
+end;
