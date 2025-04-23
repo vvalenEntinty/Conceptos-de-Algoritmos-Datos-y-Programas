@@ -1,0 +1,101 @@
+program uno;
+const
+	tam=3;
+type
+meses=1..12;
+
+	especie=record
+		nombre:string;
+		tiempo:meses;
+		tipo_planta:string;
+		clima:string;
+		pais:string;
+	end;
+	
+	procedure leer(var e: especie);
+begin
+  writeln('Ingrese el nombre cientifico:');
+  readln(e.nombre);
+  
+  writeln('Ingrese el tiempo (en meses):');
+  readln(e.tiempo);
+  
+  writeln('Ingrese el tipo de planta:');
+  readln(e.tipo_planta);
+  
+  writeln('Ingrese el clima:');
+  readln(e.clima);
+  
+  writeln('Ingrese los países donde se encuentra:');
+  readln(e.pais);
+  while (e.pais<> 'zzz') do begin
+	writeln('Ingrese los países donde se encuentra:');
+		readln(e.pais);
+	end;
+end;
+	
+	procedure ActualizarTipoMin (contPlantas:integer; TipoAct:string;var TipoMin:string;var MinCant:integer);
+	begin
+		if (MinCant > contPlantas) then
+		begin
+			TipoMin:=TipoAct;
+			MinCant:=contPlantas;
+		end;
+	end;
+	
+	procedure ActualizarDosLongevas(var MasLongeva1,MasLongeva2:string; tiempo:integer; var MaxLongeva:integer; nombre:string);
+	begin
+		if (MaxLongeva < tiempo) then 
+		begin
+			MasLongeva2:=MasLongeva1;
+			MasLongeva1:=nombre;
+			MaxLongeva:=tiempo;
+		end;
+	end;
+	
+	function CumpleArg (e:especie):boolean;
+	begin
+		CumpleArg:=(e.pais='Argetina')and(e.clima='subtropical');
+	end;
+	
+	function PromedioDeVida (contPlantas,totalVida:integer):real;
+	begin
+		PromedioDeVida:=(totalVida/contPlantas);
+	end;
+	
+var
+	contPlantas,i,MinCant,totalVida,MaxLongeva,ContPlantaPaises,MaxPlantaPaises:integer;
+	e:especie;
+	tipoAct,TipoMin,MasLongeva1,MasLongeva2:string;
+begin
+	MinCant:=9999; MaxLongeva:=0; MasLongeva1:='';MasLongeva2:='';MaxPlantaPaises:=0;
+
+	i:=1;
+	leer (e);
+	while ( i<=tam) do 
+	begin
+		tipoAct:=e.tipo_planta;
+		contPlantas:=0; totalVida:=0;  
+		
+	//CORTE DE CONTROL | mientras sea del mismo tipo 
+	while ( i<=tam) and (tipoAct=e.tipo_planta) do
+	begin
+		
+		contPlantas:=contPlantas +1; totalVida:=e.tiempo; // cantidad de plantas y total del tiempo de vida 
+		ActualizarDosLongevas(MasLongeva1,MasLongeva2,e.tiempo,MaxLongeva,e.nombre);
+		Max
+		
+		if (CumpleArg(e)) then
+			writeln(e.nombre);
+			
+		i:=i +1;
+		if (i <= tam) then
+			leer (e);
+	end;
+		writeln('Promedio de vida del tipo ',tipoAct,' es de ',PromedioDeVida(contPlantas,totalVida):0:2); // function del promedio de vida
+		ActualizarTipoMin(contPlantas,TipoAct,TipoMin,MinCant);
+	end;
+		writeln('El tipo de planta con menor cantidad de plantas es: ',TipoMin);
+		writeln('El nombre cientifico de las dos plantas mas longevas: ',MasLongeva1,' y ',MasLongeva2);
+end.
+	
