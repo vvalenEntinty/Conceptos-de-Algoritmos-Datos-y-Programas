@@ -1,0 +1,44 @@
+program Vectores;
+const
+cant_datos = 150;
+type
+vdatos = array[1..cant_datos] of real;
+ procedure cargarvector (var v:vdatos;var dmil:integer);
+var	
+	num:real;
+begin
+	readln(num);
+	while (diml< cant_datos) and (num <> 0) do
+	begin
+    diml:=diml +1;
+		v[diml]:=num;
+		readln(num);
+	end;
+end;
+procedure modificarVectorySumar(var v:vdatos;
+dimL : integer; n: real; var suma: real);
+var
+i:integer;
+begin
+ for i := 1 to diml do
+ begin
+   v[i]:=v[i] + n;
+    suma:=suma + v[i];
+  end;
+end;
+{ programa principal }
+var
+datos : vdatos;
+i, dim : integer;
+num, suma : real;
+begin
+dim := 0;
+sumaTotal := 0;
+cargarVector(datos,dim); { completar }
+writeln(‘Ingrese un valor a sumar’);
+readln(num);
+modificarVectorySumar(...);{completar}
+writeln(‘La suma de los valores es: ’, suma);
+writeln(‘Se procesaron: ’,dim, ‘ números’)
+end.
+
