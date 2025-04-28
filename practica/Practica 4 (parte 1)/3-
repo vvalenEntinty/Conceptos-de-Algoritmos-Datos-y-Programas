@@ -1,0 +1,51 @@
+Se dispone de un vector con números enteros, de dimensión física dimF y dimensión lógica dimL.
+a. Realizar un módulo que imprima el vector desde la primera posición hasta la última.
+  procedure Imprimir (v:vectores;dimL:integer);
+    var
+      i:integer;
+    begin
+      for i := 1 to dimL do
+        writeln(v[i]);
+    end;
+b. Realizar un módulo que imprima el vector desde la última posición hasta la primera.
+  procedure UltimaPrimera (v:vector;dimL:integer);
+  var
+    i:integer;
+  begin
+    for i:= dimL downto 1 do
+      writeln(v[i]);
+  end;
+c. Realizar un módulo que imprima el vector desde la mitad (dimL DIV 2) hacia la primera posición, y
+desde la mitad más uno hacia la última posición.
+  procedure mitad (v:vector;diml:integer);
+  var  
+    i,mitad:integer;
+  begin
+    mitad:=(diml div 2);
+    for i:= mitad downto 1 do
+      writeln(v[i]);
+    for i:= mitad+1 to dimL;
+  end;
+
+d. Realizar un módulo que reciba el vector, una posición X y otra posición Y, e imprima el vector desde
+la posición X hasta la Y. Asuma que tanto X como Y son menores o iguales a la dimensión lógica. Y
+considere que, dependiendo de los valores de X e Y, podría ser necesario recorrer hacia adelante o
+hacia atrás.
+  procedure imprimir (v:vector;x,y:integer);
+  var
+    i:integer;
+  begin  
+    if (x<y)then
+      for i:=x to y do
+        writeln(v[i])
+      else
+      if (x>y)then
+        for i:= x downto y do
+          writeln(v[i])
+      else
+        writeln(v[x]);
+  end;
+  
+e. Utilizando el módulo implementado en el inciso anterior, vuelva a realizar los incisos a, b y c.
+  
+
