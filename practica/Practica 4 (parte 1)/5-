@@ -1,0 +1,54 @@
+program cinco;
+const       
+    dimF=100;
+type
+    numeros=array[1..dimF] of integer;
+
+procedure leer (var v:numeros;var dimL:integer);
+var
+    num:integer;
+begin
+    readln(num);
+    while (diml<=dimF) and (num <> 0) do
+    begin
+        dimL:=dimL +1;
+        v[dimL]:=num;
+        readln(num);
+    end;
+end;
+
+procedure informar (v:numeros; dimL:integer);
+var
+    posmin,posmax,min,max,i:integer;
+begin
+    min:=9999;max:=-9999;
+    for i:= 1 to dimL do    
+    begin
+        if (max < v[i])then
+        begin
+            posmax:=i;
+            max:=v[i];
+        end;
+        if (min>v[i])then
+        begin
+            posmin:=i;
+            min:=v[i];
+        end;
+        v[posmin]:=max;
+        v[posmax]:=min;
+    
+    end;
+    write('El elemento máximo', max,'que se encontraba en la
+posición' ,posmax ,'fue intercambiado con el elemento mínimo',min,' que se encontraba en la posición',posmin);)
+end;
+    
+
+
+var
+    v:numeros;
+    dimL:integer;
+begin
+    dimL:=0;
+    leer(v,dimL);
+    informar(v,dimL);
+end;
