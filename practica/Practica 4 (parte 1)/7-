@@ -1,0 +1,52 @@
+program ejercicio;
+type
+	contador=array [0..9] of integer;
+
+procedure DescomponerNumeros (var vc:contador; num:integer);
+var
+	dig:integer;
+begin
+	while(num <> 0) do 
+	begin
+		dig:=num mod 10;
+		vc[dig]:=vc[dig] +1;
+		num:=num div 10;
+	end;
+end;
+
+function Maximo (vc:contador):integer;
+var
+	max,pos,i:integer;
+begin
+	max:=-9999;
+	for i := 1 to 9 do
+		if (max < vc[i])then
+		begin
+			max:=vc[i];
+			pos:=i;
+		end:
+	Maximo:=pos;
+end;
+
+var
+	vc:contador;
+	num,i:integer;
+begin
+	readln(num);
+	while (num <> -1) do 
+	begin
+		DescomponerNumeros(vc,num);
+		readln(num);
+	end;
+	
+	for i:= 0	 to 9 do
+		writeln('Numero ',i,' : ',vc[i],' veces');
+		
+				
+	writeln('El digito mas leido fue el ',Maximo(vc));
+	
+	write('los digitos que no tuvieron ocurriencias son: ');
+	for i := 0 to 9 do 
+		if (vc[i] = 0) then
+			write(i,' ');
+end.
