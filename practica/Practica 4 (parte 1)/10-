@@ -1,0 +1,58 @@
+program ej;
+const
+	dimf=300;
+type
+	salarios=array [1..dimf] of real;
+
+procedure CargarSalarios(var vs:salarios; var diml:integer);
+var
+	num:real;
+begin
+	writeln('Ingrese el salario');
+	readln(num);
+	while (diml <= dimf) and (num <> 0) do 
+	begin
+		diml:=diml+1;
+		vs[diml]:=num;
+		writeln('Ingrese el salario');
+		readln(num);
+	end;
+end;
+
+procedure AumentarSalarios (var vs:salarios; diml:integer; x:real);
+var
+	i:integer;
+begin
+	for i:=1 to diml do
+	begin	
+		vs[i]:= vs[i] * x;
+	end;
+end;
+	
+function promedio (vS:salarios; diml:integer):real;
+var
+	i:integer;
+	total:real;
+begin
+total:=0;
+	for i:= 1 to diml do 
+	begin
+		total:=total + vs[i];
+	end;
+promedio:=(total/diml);
+end;
+	
+var
+	vs:salarios;
+	diml:integer;
+	x:real;
+begin
+	diml:=0;
+	CargarSalarios(vs,diml);
+	
+	writeln('Ingrese el valor que quiera aumentar en los salarios: ');
+	readln(x);
+	AumentarSalarios(vs,diml,x);
+	
+	writeln('El sueldo promedio es: ',promedio(vs,diml));
+end.
