@@ -1,0 +1,108 @@
+program ejercicio;
+const
+	dimF=400;
+type
+	alumno=record
+		inscripcion:integer;
+		dni:integer;
+		apellido:string;
+		nombre:string;
+		nacimiento:integer;
+	end;
+	
+	Valumnos=array [1..dimF] of alumno;
+
+
+procedure Leer (var v:alumno);
+	begin
+		writeln('Ingresar el numero de  ');readln(v.inscripcion);
+		writeln('Ingresar el dni ');readln(v.dni);
+		if (v.dni <> -1) then 
+		begin
+			writeln('Ingresar el apellido ');readln(v.apellido);
+			writeln('Ingresar el nombre ');readln(v.nombre);
+			writeln('Ingresar la fecha de nacimiento  ');readln(v.nacimiento);
+		end;
+	end;
+
+
+procedure CargarVector (var v:valumnos; var dimL:integer );
+var
+	aux:alumno;
+begin
+	dimL:=0;
+	Leer (aux);
+	while (dimL<=dimF) and (aux.dni <> -1) do
+	begin
+		dimL:=dimL+1;
+		v[dimL]:=	aux;
+		Leer (aux);
+	end;
+end;
+	
+function SoloPares (dni:integer):boolean;
+var
+		pares,cant,dig:integer;
+begin
+	pares:=0;cant:=0;
+	while (dni <> 0) do
+	begin
+		dig:=dni mod 10;
+		if (dig mod 2 = 0) then
+			pares:=pares+1;
+		cant:=cant + 1;
+		dni := dni div 10;
+	end;
+	SoloPares:=(pares=cant);
+end;
+	
+procedure DosAlumnos (var maxedad:integer; v:alumno ; var ape1, ape2,nom1,nom2:string);		
+begin
+	if (v.nacimiento > maxedad) then 
+	begin	
+		ape2:=ape1;
+		ape1:=v.apellido;
+		nom2:=nom1;
+		nom1:=v.nombre;
+		maxedad:=v.nacimiento;
+	end;
+end;
+
+procedure Informar (v:valumnos);
+var
+	ContPares,i,maxedad:integer;
+	ape1,ape2,nom1,nom2:string;
+begin
+	ContPares:=0; maxedad:=-1;
+	ape1:='';ape2:='';nom1:='';nom2:='';
+	
+	for i := 1 to dimF do
+	begin
+		if (SoloPares(v[i].dni)) then
+			ContPares:=ContPares +1;
+		
+		DosAlumnos(maxedad,v[i],ape1,ape2,nom1,nom2);
+		
+	end;
+	writeln('El porcentaje de alumnos con dni compuesto solo de pares es: ', ((ContPares*100)/dimF):0:2);
+	if (ape1='')and(nom1='') then
+		writeln('VACIO')
+		else
+			writeln(ape1,' ',nom1);
+		if (ape2='')and(nom1='') then
+			writeln('VACIO')
+			else
+				writeln(ape2,' ',nom2);
+			
+end;
+
+var
+	v:valumnos;
+	dimL:integer;
+begin
+	dimL:=0;
+	
+	CargarVector(v,dimL);
+	
+	Informar(v);
+end.
