@@ -1,0 +1,148 @@
+program Astronomia;
+
+const
+  dimF = 53;
+
+type
+	rangotipos=1..4;
+
+  galaxia = record
+    nombre: string;
+    tipo: rangotipos;
+    masa: real;
+    distancia: real;
+  end;
+
+  vector_galaxias = array[1..dimF] of galaxia;
+  vector_tipos = array[rangotipos] of integer;
+
+procedure LeerGalaxia(var g: galaxia);
+begin
+  writeln('Ingresar nombre:'); readln(g.nombre);
+  writeln('Ingresar tipo:'); readln(g.tipo);
+  writeln('Ingresar masa:'); readln(g.masa);
+  writeln('Ingresar distancia:'); readln(g.distancia);
+end;
+
+procedure CargarGalaxias(var vg: vector_galaxias);
+var
+  i: integer;
+begin
+  for i := 1 to dimF do
+  begin
+    writeln('Galaxia ', i, ':');
+    LeerGalaxia(vg[i]);
+  end;
+end;
+
+procedure InicializarVectorTipos(var vt: vector_tipos);
+var
+  i: integer;
+begin
+  for i := 1 to 4 do
+    vt[i] := 0;
+end;
+
+function EsGalaxiaPrincipal(nombre: string): boolean;
+begin
+  EsGalaxiaPrincipal := (nombre = 'Via Lactea') or (nombre = 'Andromeda') or (nombre = 'Triangulo');
+end;
+
+procedure ActualizarMaximosYMinimos(var GMax1, GMax2, GMin1, GMin2: string;
+                                     var Min1, Min2, Max1, Max2: real;
+                                     masa: real; nombre: string);
+begin
+  if masa > Max1 then
+  begin
+    Max2 := Max1;
+    GMax2 := GMax1;
+    Max1 := masa;
+    GMax1 := nombre;
+  end
+  else if masa > Max2 then
+  begin
+    Max2 := masa;
+    GMax2 := nombre;
+  end;
+
+  if masa < Min1 then
+  begin
+    Min2 := Min1;
+    GMin2 := GMin1;
+    Min1 := masa;
+    GMin1 := nombre;
+  end
+  else if masa < Min2 then
+  begin
+    Min2 := masa;
+    GMin2 := nombre;
+  end;
+end;
+
+procedure AnalizarGalaxia(g: galaxia; var vt: vector_tipos;
+                           var MasaTotal, MasaPrincipales: real;
+                           var CantNoIrregulares: integer;
+                           var GMax1, GMax2, GMin1, GMin2: string;
+                           var Min1, Min2, Max1, Max2: real);
+begin
+  vt[g.tipo] := vt[g.tipo] + 1;
+  MasaTotal := MasaTotal + g.masa;
+
+  if EsGalaxiaPrincipal(g.nombre) then
+    MasaPrincipales := MasaPrincipales + g.masa;
+
+  if (g.tipo <> 4) and (g.distancia < 1000) then
+    CantNoIrregulares := CantNoIrregulares + 1;
+
+  ActualizarMaximosYMinimos(GMax1, GMax2, GMin1, GMin2, Min1, Min2, Max1, Max2, g.masa, g.nombre);
+end;
+
+procedure MostrarEstadisticas(vt: vector_tipos; MasaTotal, MasaPrincipales: real;
+                               CantNoIrregulares: integer;
+                               GMax1, GMax2, GMin1, GMin2: string);
+var
+  i: integer;
+begin
+  for i := 1 to 4 do
+    writeln('Cantidad de galaxias del tipo ', i, ': ', vt[i]);
+
+  writeln('Masa total acumulada: ', MasaTotal:0:2);
+  writeln('Masa total de principales: ', MasaPrincipales:0:2);
+  writeln('porcentaje: ',(masaprincipales*100)/masatotal:0:2,'%'); 	
+  writeln('Cantidad de galaxias no irregulares a menos de 1000 años luz: ', CantNoIrregulares);
+  writeln('Dos galaxias con mayor masa: ', GMax1, ' y ', GMax2);
+  writeln('Dos galaxias con menor masa: ', GMin1, ' y ', GMin2);
+end;
+
+procedure ProcesarGalaxias(const vg: vector_galaxias);
+var
+  vt: vector_tipos;
+  MasaTotal, MasaPrincipales: real;
+  CantNoIrregulares: integer;
+  GMax1, GMax2, GMin1, GMin2: string;
+  Max1, Max2, Min1, Min2: real;
+  i: integer;
+begin
+  InicializarVectorTipos(vt);
+  MasaTotal := 0;
+  MasaPrincipales := 0;
+  CantNoIrregulares := 0;
+  Max1 := -1; Max2 := -1;
+  Min1 := 9999; Min2 := 9999;
+  GMax1 := ''; GMax2 := ''; GMin1 := ''; GMin2 := '';
+
+  for i := 1 to dimF do
+    AnalizarGalaxia(vg[i], vt, MasaTotal, MasaPrincipales, CantNoIrregulares,
+                    GMax1, GMax2, GMin1, GMin2, Min1, Min2, Max1, Max2);
+
+  MostrarEstadisticas(vt, MasaTotal, MasaPrincipales, CantNoIrregulares,
+                      GMax1, GMax2, GMin1, GMin2);
+end;
+
+var
+  vg: vector_galaxias;
+
+begin
+  CargarGalaxias(vg);
+  ProcesarGalaxias(vg);
+end.
