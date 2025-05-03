@@ -1,0 +1,101 @@
+program CambioClimatico;
+const
+	dimF=5;
+	MaxLugares=10;
+type
+	
+	Vector_Lugares = array[1..MaxLugares]of real; // vector de los 100 lugares 
+	
+	Vector_Anios = array[1..dimF]of Vector_Lugares; //vector con 50 años 
+	
+	procedure CargarTemperaturas (var vl:vector_lugares);
+	var
+		i:integer;
+		temp:real;
+	begin
+		for i := 1 to MaxLugares do
+		begin
+			writeln('Ingresar el Promedio');
+			readln(temp);
+			vl[i]:=temp;
+		end;
+	end;
+	
+	procedure cargarAnios (var va:vector_anios; var vl:vector_lugares);
+	var
+		i:integer;
+	begin
+		for i := 1 to dimF do
+		begin
+			writeln('----  Anio ',i,'  ----');
+			CargarTemperaturas(vl);
+			va[i]:=vl;
+		end;
+	end;
+	
+	function PromedioGlobal (vl:vector_lugares):real;
+	var
+		i:integer;
+		total:real;
+	begin
+		total:=0;
+		for i := 1 to maxlugares do
+		begin
+			total:=total + vl[i];
+		end;
+	promedioglobal:= total/maxlugares;
+	end;
+	
+	function TempMaxima(vl:vector_lugares):real;
+	var
+		i:integer;
+		max:real;
+	begin
+		max:=0;
+		for i := 1 to maxlugares do
+		begin
+			if (max < vl[i]) then
+			begin
+				max:=vl[i];
+			end;
+		end;
+		tempmaxima:=max;
+	end;
+	
+	procedure Informar (va:vector_anios);
+	var
+
+		i:integer;
+		maxanio,MaxTempanio:integer;
+		max,prom,TempMaxLugar,maxtotal:real;
+	begin
+		max:=-1;
+		maxtotal:=0;
+		for i := 1 to dimf do
+		begin
+			Prom:=PromedioGlobal(va[i]);
+			if (max < prom) then
+			begin
+				maxanio:=i;
+				max:=prom;
+			end;	
+			
+			TempMaxLugar:=TempMaxima(va[i]);
+			if (maxTotal<TempMaxLugar)then
+			begin
+				MaxTempanio:=i;
+				maxTotal:=TempMaxLugar;
+			end;
+			
+			
+		end;
+		writeln('El año con mayor temperatura promedio a nivel mundial es: ',maxanio);
+		writeln('El año con la mayor temperatura detectada en algún punto del planeta en los últimos 50 años: ',MaxTempanio);
+	end;
+var
+	va:vector_anios;
+	vl:vector_lugares;
+begin
+	cargarAnios(va,vl);
+	Informar(va);
+end.
