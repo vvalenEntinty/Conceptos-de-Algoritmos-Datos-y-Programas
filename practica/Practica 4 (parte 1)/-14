@@ -1,0 +1,34 @@
+program ej;
+const
+	dimF=1000;
+type
+	rango_codigo=1..1000;
+	rango_rol=1..5;
+	
+	participante=record
+		pais:string;
+		codigo:rango_codigo;
+		proyecto:string;
+		rol:rango_rol;
+		horasTrabajadas:integer;
+	end;
+	
+	Vector_Proyectos=array[1..dimF] of participante;
+	
+	procedure CargarProyectos (var vp:vector_proyectos);
+	var
+		dimL:integer;
+	begin
+	dimL:=0;
+		while (p.codigo <> - 1) and (dimL< dimF) do 
+		begin
+		dimL:=dimL + 1;
+		vp[diml]
+		
+		end;
+	end;
+	
+var
+	vp:vector_proyectos;
+begin
+	CargarProyectos(vp);
