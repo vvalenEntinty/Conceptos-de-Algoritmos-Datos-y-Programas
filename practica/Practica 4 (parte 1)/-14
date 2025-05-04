@@ -2,12 +2,11 @@ program ej;
 const
 	dimF=1000;
 type
-	rango_codigo=1..1000;
 	rango_rol=1..5;
 	
 	participante=record
 		pais:string;
-		codigo:rango_codigo;
+		codigo:integer;
 		proyecto:string;
 		rol:rango_rol;
 		horasTrabajadas:integer;
@@ -15,20 +14,121 @@ type
 	
 	Vector_Proyectos=array[1..dimF] of participante;
 	
-	procedure CargarProyectos (var vp:vector_proyectos);
+	vector_Precios = array [rango_rol] of real; // se dispone
+	
+	vector_contador= array[1..1000] of integer;
+	
+//-----------------------------------------------------------------		
+	
+	procedure cargarpaga (var vp:vector_precios); // se dispone
+	
+//-----------------------------------------------------------------		
+	
+	procedure LeerParticipante(var p: participante);
+begin
+  writeln('Código de proyecto:'); readln(p.codigo);
+ if (p.codigo <> -1) then
+ begin
+    writeln('País:'); readln(p.pais);
+    writeln('Nombre del proyecto:'); readln(p.proyecto);
+    writeln('Rol (1 a 5):'); readln(p.rol);
+    writeln('Horas trabajadas:'); readln(p.horasTrabajadas);
+  end;
+end;
+
+//-----------------------------------------------------------------	
+
+	procedure CargarProyectos (var vp:vector_proyectos;var diml:integer);
 	var
-		dimL:integer;
+		p:participante;
 	begin
 	dimL:=0;
+	LeerParticipante(p);
 		while (p.codigo <> - 1) and (dimL< dimF) do 
 		begin
 		dimL:=dimL + 1;
-		vp[diml]
-		
+		vp[diml]:=p;
+		LeerParticipante(p);
 		end;
 	end;
 	
+//-----------------------------------------------------------------		
+
+procedure inicializarvector (var vc:vector_contador);
+var
+		i:integeR;
+begin
+	for i := 1 to 1000 do
+	begin
+		vc[i]:=0;
+	end;
+end;
+	
+//-----------------------------------------------------------------		
+	
+	function MontoCobrado(horas:integer;precio:real):real;
+	begin
+		MontoCobrado:=(horas*precio);
+	end;
+	
+//-----------------------------------------------------------------	
+
+procedure ActualizarMenorMonto (var minmonto:real; var codigomonto:integer; cobrado:real ; codigo:integer);
+begin
+	if (cobrado<minmonto) then
+	begin
+		minmonto:=cobrado;
+		codigomonto:=codigo;
+	end;
+end;
+
+//-----------------------------------------------------------------	
+
+procedure informar (vp:vector_proyectos; vprecios:vector_precios; diml:integer);
+var
+	MontoArg,MinMonto,cobrado:real;
+	HorasAdmin,CodigoMonto:integer;
+	i:integer;
+	vc:vector_contador;
+begin
+HorasAdmin:=0;MontoArg:=0;MinMonto:=9999;CodigoMonto:=0;
+
+InicializarVector(vc);
+	for  i:=1 to dimL do 
+	begin
+	cobrado:=MontoCobrado(vp[i].horastrabajadas,vprecios[rol]);
+	
+		// A ---------------------
+		if (vp[i].pais = 'Argentina') then
+			MontoArg:=MontoArg+ Cobrado;
+		// B ---------------------
+		if (vp[i].rol = 3) then
+			HorasAdmin:=HorasAdmin +vp[i].horastrabajadas;
+		// C ---------------------	
+		ActualizarMenorMonto (minmonto,codigomonto,cobrado,vp[i].codigo);	
+		// D ---------------------
+		if (vp[i].rol = 4) then
+			vc[vp[i].codigo]:=vc[vp[i].codigo] + 1;
+	
+	end;
+	writeln('El monto total invertido en desarrolladores con residencia en Argentina: ',montoarg:0:2);	
+	writeln('La cantidad total de horas trabajadas por Administradores de bases de datos: ',HorasAdmin);
+	writeln('El código del proyecto con menor monto invertido: ',codigomonto);
+	for i := 1 to 1000 do
+		if vc[i] > 0 then
+    writeln('Proyecto ', i, ': ', vc[i], ' arquitectos de software');
+
+end;
+
+//-----------------------------------------------------------------		
+	
 var
 	vp:vector_proyectos;
+	vprecios:vector_precios;
+	diml:integer;
 begin
-	CargarProyectos(vp);
+	diml:=0;
+	CargarPaga(vprecios); // se dispone
+	CargarProyectos(vp,diml);
+	informar (vp,vprecios,diml);
+end.
