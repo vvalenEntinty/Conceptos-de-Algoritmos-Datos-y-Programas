@@ -1,0 +1,129 @@
+program ej;
+const
+	dimF=200;
+	maxDia=31;
+type
+		marzo=1..maxDia;
+		viaje=record
+			dia:marzo;
+			monto:real;
+			distancia:real;
+		end;
+		
+	vector_viajes=array [1..dimf] of viaje;
+	
+	vector_dias=array[marzo] of integer;
+
+//----------------------------------------------------------------------
+
+procedure IncializarVector(var vd:vector_dias);
+var
+	i:integer;
+begin
+	for i := 1 to maxDia do
+		vd[i]:=0;
+end;
+
+//----------------------------------------------------------------------
+
+	procedure LeerViaje (var v:viaje);
+	begin
+		writeln('Ingresar el dia');readln(v.dia);
+		writeln('Ingresar el monto de dinero transportado');readln(v.monto);
+		writeln('Ingresar la distancia recorrida');readln(v.distancia);
+	end;
+	
+//----------------------------------------------------------------------	
+
+	procedure CargarViajes (var vv:vector_viajes; var diml:integer);
+	var
+		v:viaje;
+	begin
+		diml:=0;
+		LeerViaje(v);
+		while (v.distancia <> 0) and (diml < dimf) do
+		begin
+			diml:=diml + 1;
+			vv[diml]:=v;
+			LeerViaje(v);
+		end;
+	end;
+
+//----------------------------------------------------------------------	
+
+procedure ActualizarMenosDinero (MM_Distancia:real;MM_Dia:integer;MontoMin:real;v:viaje);
+begin
+	if (v.monto < MontoMin) then
+	begin
+		MontoMin:=v.monto;
+		MM_Distancia:=v.distancia;
+		MM_Dia:=v.dia;
+	end;
+end;
+
+//----------------------------------------------------------------------
+
+	procedure Informar (vv:vector_viajes;diml:integer);
+	var
+		vd:vector_dias;
+		MontoTotal,MM_Distancia,MontoMin:real;
+		MM_Dia,i:integer;
+	begin
+			IncializarVector(vd);
+		
+		MontoTotal:=0; MontoMin:=9999; MM_Distancia:=0; MM_Dia:=0;
+		for i := 1 to dimL do 
+		begin
+			// 1.B 
+			MontoTotal:=MontoTotal + vv[i].monto;
+			
+			// 2.B
+			ActualizarMenosDinero (MM_Distancia,MM_Dia,MontoMin,vv[i]);
+			
+			// 3.B
+			vd[vv[i].dia]:=vd[vv[i].dia] + 1;
+			
+			
+			//C
+		end;
+		writeln('El promedio transportado de los viajes realizados es: $',MontoTotal/DimL:0:2);
+		writeln('La distancia recorrida ',mm_distancia:0:2,'KM  y el día del mes ', mm_dia,' en que se realizó el viaje que transportó menos dinero', montomin:0:2);
+		for i := 1 to maxdia do
+			if (vd[i]<>0) then
+			writeln('Dia ',i, ': ',vd[i]);
+		
+end;
+
+//----------------------------------------------------------------------
+
+procedure Eliminar (var v:vector_viajes;var diml:integer);
+var
+	i,j:integer;
+begin
+	i:=1;
+	while (i <=diml) do
+	begin
+		if (v[i].distancia=100) then
+		begin
+			for j:= i to diml-1 do
+				v[j]:=v[j+1];
+			diml:=diml-1;
+		end
+		else
+			i:=i +1;
+	end;
+end;
+
+//----------------------------------------------------------------------
+
+var
+	i:integer;
+	diml:integer;
+	vv:vector_viajes;
+begin
+	CargarViajes(vv,diml);
+	Informar(vv,diml);
+	Eliminar (vv,diml);
+	for i := 1 to diml do
+		writeln(vv[i].distancia:0:2);
+end.
