@@ -1,0 +1,16 @@
+1. ¿Qué se define como memoria estática?
+  -Se define como memoria estatica a la memoria que no se puede modificar durante la ejecucion del programa, ni si cantidad ni ubicacion, son de tipo char,boolean,integer,real,string,subrango,registro,vector.
+
+2. ¿Qué se define como memoria dinámica?
+  -Se define como memoria dinamica al tipo de memoria que se modifica en la ejecucion del programa, puede variar su tamaño y ubicacion, este tipo de memoria se libera solo cuando ponemos un dispose
+
+3. ¿Qué es una variable de tipo puntero?
+  -Una variable de tipo puntero se aloja en la memoria estatica, pero puede reservar memoria dinamica pra su contenido, una variable de tipo puntero contiene como dato una reccion de memoria dinamica,
+  en esa direccion de memoria se encuentra el dato que realmente se quiere guardar, es un tipo de varuable usada para almacenar una direccion de memoria dinamica , en esa direccion
+   de memoria se encuenra. El valor real que almacena el valor puede ser de cualquiera de los tipos vistos
+   
+4. ¿Qué hace la operación “NEW” aplicada en una variable del tipo puntero?
+  - Reserva un espacio en la memoria dinamica
+
+5. ¿Qué hace la operación “DISPOSE” aplicada en una variable del tipo puntero?
+  - Se libera la memoria dinamica 
