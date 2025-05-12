@@ -1,0 +1,41 @@
+Utilizando el programa del ejercicio 1, realizar los siguientes módulos:
+a. Máximo: recibe la lista como parámetro y retorna el elemento de valor máximo.
+  procedure Maximo (l:lista;var max:integer);
+  begin
+    while(l<>nil)do 
+    begin
+      if (l^.num > max) then
+      begin
+        max:=l^.num;
+      end;
+      l:=l^.sig;
+    end;
+  end;
+  
+b. Mínimo: recibe la lista como parámetro y retorna el elemento de valor mínimo.
+  procedure Minimo (l:lista;var min:integer);
+  begin
+    while(l<>nil)do 
+    begin
+      if (l^.num < min) then
+      begin
+        min:=l^.num;
+      end;
+      l:=l^.sig;
+    end;
+  end;
+
+c. Múltiplos: recibe como parámetros la lista L y un valor entero A, y retorna la cantidad de
+elementos de la lista que son múltiplos de A.
+  procedure Multiplos (l:lista; var A,cantidad:integer);
+  begin
+    while (l<>nil) do 
+    begin
+      if ((l^.num mod A) = 0) then
+     begin
+        cantidad:=cantidad + 1;
+      end;
+        l:=l^.sig;
+    end;
+  end;
+    
