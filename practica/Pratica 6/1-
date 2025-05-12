@@ -1,0 +1,29 @@
+a. Indicar qué hace el programa.
+  El programa lee numeros hasta que se ingrese el numero 0 y los va almacenando en una lista
+  
+b. Indicar cómo queda conformada la lista si se lee la siguiente secuencia de números: 10 21 13 48 0.
+  0,48,13,21,10
+  
+c. Implementar un módulo que imprima los números enteros guardados en la lista generada.
+  procedure Imprimir (l:lista);
+  begin
+    while (l<>nil) do 
+    begin
+      writeln(l^.num);
+      l:=l^.sig;
+    end;
+  end;
+  
+d. Implementar un módulo que reciba la lista y un valor, e incremente con ese valor cada dato de la
+lista.
+  procedure Incrementar (var l:lista; valor:integer);
+  var
+    aux:lista;
+  begin
+    aux:=l;
+    while(aux <>nil) do
+    begin
+      aux^.num:=aux^.num + valor;
+      aux:=aux^.sig;
+    end;
+  end;
