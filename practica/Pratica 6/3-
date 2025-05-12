@@ -1,0 +1,14 @@
+procedure armarNodo(var L,ult: lista; v: integer);
+var
+aux: lista;
+begin
+new(aux);
+aux^.num := v;
+aux^.sig := nil;
+
+if (l=nil) then 
+	l:=aux
+else
+	ult^.sig:=aux;
+ult:=aux;
+end;
