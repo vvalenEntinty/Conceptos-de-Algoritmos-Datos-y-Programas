@@ -1,0 +1,64 @@
+program ejercicio2;
+type
+lista = ^nodo;
+persona = record
+dni: integer;
+nombre: string;
+apellido: string;
+end;
+nodo = record
+dato: persona;
+sig: lista;
+end;
+//---------------------------------------------------
+procedure leerPersona(p: persona); {SE PASA EL PARAMETRO POR VALOR Y NO POR REFERENCIA}
+begin
+read(p.dni);
+if (p.dni <> 0)then begin
+read(p.nombre);
+read(p.apellido);
+end;
+end;
+//---------------------------------------------------
+{Agrega un nodo a la lista}
+procedure agregarAdelante(l:lista;p:persona); {SE PASAN LOS PARAMETROS POR VALOR Y NO POR REFERENCIA}
+var
+aux: lista;
+begin
+{FALTA RESERVER UN ESPACIO EN LA MEMORIA CON UN NEW(AUX)}
+aux^.dato:= p;
+aux^.sig:= l;
+l:= aux;
+end;
+//---------------------------------------------------
+{Carga la lista hasta que llega el dni 0}
+procedure generarLista(var l:lista);
+var
+p:nodo; {SE PASA EL NODO Y NO EL REGISTRO}
+begin
+leerPersona(p);
+while (p.dni <> 0) do begin
+agregarAdelante(l,p);
+{FALTA VOLVER A LEER PERSONA}
+end;
+end;
+//---------------------------------------------------
+procedure imprimirInformacion(var l:lista); {SE PASA POR LA LISTA POR REFERENCIA Y SE PIERDE EL PUNTERO INICIAL}
+begin
+while (l <> nil) do begin
+writeln('DNI: ', l^.dato.dni, 'Nombre:', l^.nombre, 'Apellido:', l^.apellido); {PARA IMPRIMIR LOS DATOS SE DEBE ACCEDER AL REGISTRO CON ^DATO. 
+																													Y LUEGO A LA VARIABLE DEL REGISTRO QUE SE QUIERE IMPRIMIR}
+{SE IMPRIMEN TODOS LOS DATOS PEGADOS POR FALTA DE ESPACIOS}
+l:= l^.sig;
+end;
+end;
+//---------------------------------------------------
+{Programa principal}
+
+var
+l:lista;
+begin
+{FALTA INICIALIZAR L EN NIL}
+generarLista(l);
+imprimirInformacion(l);
+end.
