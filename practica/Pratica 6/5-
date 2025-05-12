@@ -1,0 +1,140 @@
+{Realizar un programa que lea y almacene la información de productos de un supermercado. De cada
+producto se lee: código, descripción, stock actual, stock mínimo y precio. La lectura finaliza cuando se
+ingresa el código -1, que no debe procesarse. Una vez leída y almacenada toda la información, calcular
+e informar:
+a. Porcentaje de productos con stock actual por debajo de su stock mínimo.
+b. Descripción de aquellos productos con código compuesto por al menos tres dígitos pares.
+c. Código de los dos productos más económicos.}
+
+program ejercicio5;
+type
+	lista=^nodo;
+	producto=record
+		codigo:integer;
+		descripcion:string;
+		stockActual:integer;
+		stockMinimo:integer;
+		precio:real;
+	end;
+		nodo=record
+			dato:producto;
+			sig:lista;
+		end;
+		
+//_________________________________________________
+	
+procedure LeerProductos(var p:producto);
+begin
+		writeln('Ingresar el codigo');readln(p.codigo);
+		if (p.codigo <> -1) then
+		begin
+			writeln('Ingresar el descripcion');readln(p.descripcion);
+			writeln('Ingresar el stockActual');readln(p.stockActual);
+			writeln('Ingresar el stockMinimo');readln(p.stockMinimo);
+			writeln('Ingresar el precio');readln(p.precio);
+		end;
+end;
+//_________________________________________________	
+
+procedure AgregarAdelante (var l:lista; p:producto);
+var
+	aux:lista;
+begin
+	new(aux);
+	aux^.dato:=p;
+	aux^.sig:=l;
+	l:=aux;
+end;
+
+
+//_________________________________________________
+
+procedure	AlmacenarProductos(var l:lista);
+var
+	p:producto;
+begin
+	LeerProductos(p);
+		while (p.codigo<>-1) do 
+		begin
+			AgregarAdelante(l,p);
+			LeerProductos(p);
+		end;
+end;
+
+//_________________________________________________		
+
+function digitospares (cod:integer):boolean;
+var
+	pares,dig:integer;
+begin
+pares:=0;
+	while (cod <> 0)  do 
+	begin
+		dig:=cod mod 10;
+		if (dig mod 2 = 0) then
+		begin
+			pares:=pares +1;
+		end;
+		cod:=cod div 10;
+	end;
+	digitospares:= (pares>=3) ;
+end;
+//_________________________________________________		
+
+procedure ActualizarDosEconomicos (var cod1,cod2:integer; var min1,min2:real; codigo:integer;precio:real);
+begin
+	if (precio < min1) then
+	begin
+		cod2:=cod1;
+		cod1:=codigo;
+		min2:=min1;
+		min1:=precio;
+	end
+	else
+		if (precio<min2) then
+		begin
+			cod2:=codigo;
+			min2:=precio;
+		end;
+	end;
+
+//_________________________________________________		
+
+
+procedure ProcesarProductos (l:lista); 
+var
+	cod1,cod2:integer;
+	min1,min2:real;
+	TotalPorDebajo,TotalProductos:integer;
+begin
+	TotalPorDebajo:=0; TotalProductos:=0; min1:=9999;min2:=9999;
+	while (l<>nil) do
+	begin
+		TotalProductos:=TotalProductos+1;
+		// PUNTO - A
+		if (l^.dato.StockActual<l^.dato.StockMinimo) then
+		begin
+			TotalPorDebajo:=TotalPorDebajo+1;
+		end;
+		// PUNTO - B
+		if (DigitosPares(l^.dato.codigo)) then
+		begin
+			writeln('Descripcion: ',l^.dato.descripcion);
+		end;
+		// PUNTO - C
+		ActualizarDosEconomicos(cod1,cod2,min1,min2,l^.dato.codigo,l^.dato.precio);
+		
+		l:=l^.sig;
+	end;
+	writeln('El porcentaje de productos con stock actual por debajo de su stock minimo es: ',((TotalPorDebajo*100)/TotalProductos):0:2);
+	writeln('Codigo de los dos productos mas economicos: ',cod1,' y ',cod2);
+end;	
+//_________________________________________________		
+		
+var
+	l:lista;
+begin
+	l:=nil;
+	AlmacenarProductos(l);
+	ProcesarProductos(l);
+end.
