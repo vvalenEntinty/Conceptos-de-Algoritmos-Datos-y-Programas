@@ -1,0 +1,163 @@
+program Punto6;
+const
+	max_rango=7;
+type
+	rango_espectros=1..max_rango;
+	Vespectros=array[rango_espectros] of integer;
+	sonda=record
+		nombre:string;
+		duracion:integer;
+		costo_construccion:real;
+		costo_mantenimiento:real;
+		espectro:integer;
+	end;
+	lista=^nodo;
+	nodo=record
+		dato:sonda;
+		sig:lista;
+	end;
+	
+procedure InicializarVector (var ve:Vespectros);
+var
+	i:rango_espectros;
+begin
+	for  i := 1 to max_rango do
+	begin
+		ve[i]:=0;
+	end;
+end;
+
+procedure LeerSonda(var s: sonda);
+begin
+  writeln('Ingrese nombre de la sonda:');
+  readln(s.nombre);
+  if (s.nombre <> 'GAIA') then
+  begin
+  writeln('Ingrese duración estimada de la misión (en meses):');
+  readln(s.duracion);
+  writeln('Ingrese costo de construcción:');
+  readln(s.costo_construccion);
+  writeln('Ingrese costo de mantenimiento mensual:');
+  readln(s.costo_mantenimiento);
+  writeln('Ingrese rango del espectro electromagnético (1-7):');
+  readln(s.espectro);
+end;
+end;
+
+procedure AgregarAdelante (var l:lista; s:sonda);
+var
+	nue:lista;
+begin
+new(nue);
+nue^.dato:=s;
+nue^.sig:=l;	
+l:=nue;
+end;
+
+
+
+procedure CargarSondas (var l:lista);
+var
+	s:sonda;
+begin
+	 LeerSonda (s);
+	 while (s.nombre <> 'GAIA' ) do
+	 begin
+		AgregarAdelante (l,s);
+		LeerSonda(s);
+		end;
+	end;
+	
+
+function Costo(construccion,mantenimiento:real;duracion:integer):real;
+var
+	costo_mant:real;
+begin
+		costo_Mant:=mantenimiento*duracion;
+		Costo:=costo_mant+construccion;
+end;
+
+procedure Promedios (l:lista; var prom_duracion,prom_costo:real);
+var
+		Cant_sondas,Total_Duracion:integer;
+		Total_Costo:real;
+begin
+Cant_sondas:=0;Total_Duracion:=0;Total_Costo:=0;
+while (l <> nil) do 
+	begin
+		Cant_Sondas:=Cant_Sondas +1;
+		Total_Duracion:=Total_Duracion + l^.dato.duracion;
+		Total_Costo:=Total_Costo + Costo(l^.dato.Costo_Construccion,l^.dato.Costo_Mantenimiento,l^.dato.Duracion);
+		l:=l^.sig;
+	end;
+	Prom_Duracion:=(Total_duracion/Cant_sondas);
+	Prom_Costo:=(Total_costo/Cant_Sondas);
+end;
+
+procedure ActualizarMasCostosa (var Nombre_costosa:string; var Max_costo:real;nombre:string ;costo:real);
+begin
+	if (Max_Costo < costo) then
+	begin
+		Max_Costo:=costo;
+		nombre_costosa:=nombre;
+	end;
+end;
+
+procedure Imprimir_CantEspectros (ve:vespectros);
+var
+	i:rango_espectros;
+begin
+	for i := 1 to max_rango do
+	begin
+		if (ve[i]<>0) then
+		begin
+			writeln('espectro: ',i,' sondas: ',ve[i]);
+		end;
+	end;
+end;
+
+
+procedure Informar (l:lista; var ve:vespectros);
+var
+	Nombre_Costosa:string;
+	Max_Costo,Prom_Duracion,Prom_Costo,CostoActual:real;
+	Sondas_DuracionSuperior:integer;
+begin
+	Max_Costo:=-1; Sondas_DuracionSuperior:=0;
+
+	Promedios(l,Prom_Duracion,Prom_Costo);
+	
+	while (l<>nil) do 
+	begin
+		CostoActual:=costo(l^.dato.Costo_Construccion,l^.dato.Costo_Mantenimiento,l^.dato.Duracion);
+//  PUNTO A ________________________________________________________________________
+		ActualizarMasCostosa(Nombre_Costosa,Max_Costo,l^.dato.nombre,CostoActual);
+//  PUNTO B ________________________________________________________________________
+		VE[l^.dato.espectro]:=VE[l^.dato.espectro]+1;
+//  PUNTO C ________________________________________________________________________
+		if (l^.dato.duracion > Prom_Duracion ) then
+		begin
+			Sondas_DuracionSuperior:=Sondas_DuracionSuperior + 1;
+		end;
+//  PUNTO D ________________________________________________________________________
+			if (l^.dato.costo_construccion > Prom_Costo) then
+			begin
+				writeln('Nombre: ',l^.dato.nombre);
+			end;
+		
+		l:=l^.sig;
+	end;
+	writeln('El nombre de la sonda mas costosa es: ',nombre_costosa);
+	Imprimir_CantEspectros(ve);
+	writeln('la cantidad de sondas con duracion mayor al promedio es: ',Sondas_DuracionSuperior);
+end;
+var
+	l:lista;
+	ve:vespectros;
+begin
+	l:=nil;
+	inicializarVector(ve);
+	CargarSondas (l);
+	Informar (l,ve);
+end.
+	
