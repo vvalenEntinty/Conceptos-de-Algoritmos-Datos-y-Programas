@@ -61,11 +61,10 @@ var
 	s:sonda;
 begin
 	 LeerSonda (s);
-	 while (s.nombre <> 'GAIA' ) do
-	 begin
+		REPEAT
 		AgregarAdelante (l,s);
 		LeerSonda(s);
-		end;
+		UNTIL (s.nombre = 'GAIA');
 	end;
 	
 
