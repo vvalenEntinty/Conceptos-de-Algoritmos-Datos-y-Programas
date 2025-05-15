@@ -31,8 +31,7 @@ procedure LeerSonda(var s: sonda);
 begin
   writeln('Ingrese nombre de la sonda:');
   readln(s.nombre);
-  if (s.nombre <> 'GAIA') then
-  begin
+
   writeln('Ingrese duración estimada de la misión (en meses):');
   readln(s.duracion);
   writeln('Ingrese costo de construcción:');
@@ -41,7 +40,6 @@ begin
   readln(s.costo_mantenimiento);
   writeln('Ingrese rango del espectro electromagnético (1-7):');
   readln(s.espectro);
-end;
 end;
 
 procedure AgregarAdelante (var l:lista; s:sonda);
