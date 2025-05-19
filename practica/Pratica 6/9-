@@ -1,0 +1,19 @@
+function estaOrdenada(pri: lista): boolean;
+var
+  actual, siguiente: lista;
+begin
+  actual := pri;
+  if (actual = nil) or (actual^.sig = nil) then
+    estaOrdenada := true  // lista vacía o con un solo nodo está ordenada
+  else
+  begin
+    siguiente := actual^.sig;
+    while (siguiente <> nil) and (actual^.num <= siguiente^.num) do
+    begin
+      actual := siguiente;
+      siguiente := siguiente^.sig;
+    end;
+
+    estaOrdenada := (siguiente = nil);
+  end;
+end;
