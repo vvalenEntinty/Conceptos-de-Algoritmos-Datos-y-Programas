@@ -1,0 +1,81 @@
+program SinInternet;
+type
+	Cliente=record
+		DNI:integer;
+		numero:integer;
+	end;
+	lista=^nodo;
+	nodo=record
+		dato:Cliente;
+		sig:lista;
+	end;
+
+// MODULOS
+procedure RecibirCliente (dni_Cliente:integer; var L,ult:lista; var Numero_Espera:integer);
+var
+	nue:lista;
+begin
+	new (nue);
+	nue^.dato.dni:=dni_cliente;
+	nue^.dato.numero:=Numero_Espera;
+	Numero_Espera:=Numero_Espera + 1;
+	nue^.sig:=nil;
+	if (l=nil) then
+		l:=nue
+		else
+			ult^.sig:=nue;
+		ult:=nue;
+end;
+
+procedure AtenderCliente (var L:lista; var Dni,Numero:integer);
+var
+	aux:lista;
+begin
+	if (L <> nil) then 
+	begin
+		Dni:=L^.dato.dni;
+		Numero:=L^.dato.numero;
+		
+		writeln('___________________________________________');
+		writeln('Cliente que debe ser atendido');
+		writeln('Numero del cliente: ',Numero);writeln('DNI: ',Dni);
+		writeln('___________________________________________');
+		
+		// ELIMINAR NODO
+			aux:=L;
+			L:=L^.sig;
+			dispose(aux);
+		end
+		else
+			writeln('No hay Clientes en espera');
+end;
+
+procedure AtenderTodosLosClientes (var L:lista);
+var
+ DniAtendido,NumeroAtendido:integer;
+begin	
+		while(L<>nil) do
+		begin
+		AtenderCliente(l, DniAtendido,NumeroAtendido);
+		writeln('Cliente Atendido- DNI:  ',DniAtendido, ' Numero: ',NumeroAtendido);
+		end;
+end;
+
+// P.P
+var
+	L,ult:lista;
+	c:cliente;
+	Numero_Espera:integer;
+begin
+Numero_Espera:=1;
+	L:=nil; ult:=nil;
+	writeln('Ingrese el DNI del cliente: ');
+	readln(c.dni);
+	while (c.dni <> 0) do 
+	begin
+	RecibirCliente(c.dni,L,ult,Numero_Espera);
+		writeln('Ingrese el DNI del cliente: ');
+	readln(c.dni);
+	end;
+	AtenderTodosLosClientes(L);
+end.
