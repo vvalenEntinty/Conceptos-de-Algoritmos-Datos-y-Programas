@@ -1,0 +1,169 @@
+program ejercicio13;
+const 
+	DimF=3600;
+	Max_Rol=4;
+type
+	Rango_Rol=1..Max_Rol;
+	Rango_Usuarios=1..DimF;
+	Usuario=record
+		email:string[50];
+		rol:Rango_Rol;
+		Revista:string[30];
+		Ultimo_Acceso:integer;
+	end;
+	
+	Vector_Roles=array[rango_rol] of integer;
+	
+	Vector_Usuarios=array[Rango_Usuarios] of Usuario;
+	
+	Usuario_Economica=record
+		nombre:string;
+		Ultimo_Acceso:integer;
+	end;
+	
+	lista=^nodo;
+	nodo=record
+		dato:Usuario_Economica;
+		sig:lista;
+	end;
+//MODULOS
+
+//___________________________________________________
+
+procedure InicializarVector(var v_roles:vector_roles);
+var
+	i:integer;
+begin
+	for i := 1 to max_rol do
+		v_roles[i]:=0;
+end;
+
+//___________________________________________________
+
+
+procedure Leer_Usuario (var U:usuario);
+begin
+	writeln('Ingresar Email');readln(u.Email);
+	writeln('Ingresar el Rol');readln(u.Rol);
+	writeln('Ingresar la revista a la que participa');readln(u.revista);
+	writeln('Ingresar la cantida de dias desde el ultimo acceso');readln(u.Ultimo_Acceso);
+				
+end;
+
+//____________________________________________________
+
+procedure Cargar_Usuarios (var v_usuarios:vector_usuarios);
+var
+	i:Rango_Usuarios;
+	U:usuario;
+begin
+	for i := 1 to DimF do
+	begin
+		Leer_Usuario(U);
+		v_usuarios[i]:=U;
+	end;
+end;
+
+//____________________________________________________________________
+
+procedure Insertar_Ordenado (var L:lista; UE:usuario_economica);
+var
+	nue:lista;
+	ant,act:lista;
+begin
+	new(nue);
+	nue^.dato:=UE;
+	ant:=L;
+	act:=L; 
+	while (act <> nil) and ( UE.Ultimo_Acceso > act^.dato.Ultimo_Acceso) do
+	begin
+		ant:=act;
+		act:=act^.sig;
+	end;
+	
+		if (act = ant) then
+			L:=nue
+		else
+				ant^.sig:=nue;
+		nue^.sig:=act;
+end;
+//____________________________________________________________________
+
+procedure 	Actualizar_Dos_Usuarios(var Email_1,Email_2:string; var Max_1,Max_2:integer;email:string; ultimo_acceso:integer);
+begin
+	if (max_1<ultimo_acceso) then
+	begin
+		max_2:=max_1;
+		email_2:=email_1;
+		max_1:=ultimo_acceso;
+		email_1:=email;
+	end
+	else
+	if (max_2 < ultimo_acceso) then
+	begin
+		max_2:=ultimo_acceso;
+		email_2:=email;
+	end;
+end;
+
+//____________________________________________________________________
+
+
+procedure Procesar_Usuarios (vu:vector_usuarios; var L:lista; var V_roles:vector_roles);
+var
+	i:rango_usuarios;
+	UE:usuario_economica;
+	Email_1,Email_2:string;
+	Max_1,Max_2:integer;
+begin
+	Max_1:=-1;Max_2:=-1;
+
+	for i := 1 to dimF do
+	begin
+		if (vu[i].revista = 'Economica') then
+		begin
+			UE.nombre:=vu[i].email;
+			UE.Ultimo_Acceso:=vu[i].ultimo_acceso;
+			Insertar_Ordenado (L,UE); {guardo en la lista los usuarios de economicas de manera ascendente}
+		end;
+		V_roles[vu[i].rol]:=		V_roles[vu[i].rol] + 1;
+		Actualizar_Dos_Usuarios(Email_1,Email_2,Max_1,Max_2,vu[i].email,vu[i].ultimo_acceso); {guardo los dos maximos}
+	end;
+		writeln('Los emails de los dos usuarios que hace mas tiempo no ingreasan al portal son: ',email_1, ' y ',email_2);
+end;
+
+//____________________________________________________________________
+
+procedure Imprimir_Listado_Y_Roles(L:lista; V_Roles:vector_roles);
+var
+	i:rango_rol;
+begin
+	while (L<>nil) do
+	begin
+		writeln('__________________');
+		writeln(L^.dato.nombre);
+		writeln(L^.dato.Ultimo_Acceso);
+		L:=L^.sig;
+	end;
+	
+	for i := 1 to Max_Rol do
+	begin
+		if (v_roles[i]<>0) then
+			writeln('Rol: ',i,' cantidad: ',v_roles[i]);
+	end;
+end;
+//____________________________________________________________________
+
+
+ // P.P
+ var
+	L:Lista;
+	V_Usuarios:Vector_Usuarios;
+	V_Roles:Vector_Roles;
+begin
+	L:=nil;
+	InicializarVector(v_roles);
+	Cargar_Usuarios(V_Usuarios);
+	Procesar_Usuarios (V_Usuarios,L,V_Roles);
+	Imprimir_Listado_Y_Roles(L,V_Roles);
+end.
