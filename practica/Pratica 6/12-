@@ -1,0 +1,68 @@
+program ejercicio12;
+type
+	telefono=record
+		version:integer;
+		pulgadas:integer;
+		ram:integer;
+	end;
+	
+	lista=^nodo;
+	
+	nodo=record
+		dato:telefono;
+		sig:lista;
+	end;
+	
+// MODULOS
+
+procedure CargarTelefonos (var L:lista); // se dispone	
+	
+//________________________________________________________	
+
+procedure ProcesarInformacion (L:lista);
+var
+	Promedio_Pantallas:real;
+	Cant_Dispositivos,Total_Dispositivos,Cant_Dispositivos_3GB_5pulg,Version_Actual:integer;
+	Total_Pulgadas:integer;
+begin
+	Total_Pulgadas:=0;
+	Total_Dispositivos:=0;
+	while (L<>nil) do {Recorro la lista}
+	begin
+		Cant_Dispositivos:=0;
+		Version_Actual:=L^.dato.version; {tomo la version actual}
+		
+		while (L <> nil) and (Version_Actual = L^.dato.version) do {corte de control} 
+		begin
+			// INCISO A
+			Cant_Dispositivos:= Cant_Dispositivos +1; {cuento la cantidad de dispositivos en esta version}
+			
+			// INCISO B
+			IF (L^.dato.ram > 3) and (L^.dato.pulgadas <= 5) then {pregunto si cumple la condicion}
+				Cant_Dispositivos_3GB_5pulg:=Cant_Dispositivos_3GB_5pulg +1; {sumo cantidad}
+			
+			// INCISO C
+			Total_Pulgadas:= Total_Pulgadas + L^.dato.pulgadas;
+			
+			L:=L^.sig; {avanzo en la lista}
+		end;
+		writeln('Cantidad de Dispositivos en la version: ',Version_Actual,' : ',Cant_Dispositivos); {informo la cant disp. en esta version}
+		Total_Dispositivos:=Total_Dispositivos+ Cant_Dispositivos;
+	end;
+	writeln('Cantidad de dispositivos con mas de 3GB y a lo sumo 5 Pulgadas: ',Cant_Dispositivos_3GB_5pulg);
+	Promedio_Pantallas:=Total_Pulgadas/Total_Dispositivos;
+	writeln('El promedio de las pantallas de todos los dispositivos es: ',Promedio_Pantallas:0:2);
+end;
+	
+	
+//________________________________________________________	
+
+	
+// P.P	
+var
+	L:lista;
+begin
+	L:=Nil;
+	CargarTelefonos(L); // se dispone
+	ProcesarInformacion(L);
+end.
