@@ -1,0 +1,113 @@
+program VERON;
+const
+	MaxRango=10;
+type
+	RangoPremiados=1..MaxRango;
+	
+	
+		Egresado=record
+
+			numero:integer;
+			apellido:string;
+			promedio:real;
+		end;
+	
+	Vector_Premiados=array[RangoPremiados] of Egresado;
+	
+	lista=^nodo;
+	nodo=record
+		dato:Egresado;
+		sig:lista;
+	end;
+//MODULOS
+procedure LeerEgresado (var E:egresado);
+begin
+	writeln('numero de alumno');readln(E.numero);
+	if (E.numero <> 0) then 
+	begin 
+	writeln('apellido');	readln(E.apellido);
+		writeln('promedio');readln(E.promedio);
+	end;
+end;
+
+//___________________________________________________
+
+procedure InicializarVector (var vp:vector_premiados);
+var
+	i:rangopremiados;
+begin
+	 for i := 1 to maxrango do
+		vp[i].promedio:=-1;
+end;
+
+//___________________________________________________
+
+procedure AgregarAdelante (var L:lista; E:Egresado);
+var
+	nue:Lista;
+begin
+	new(nue);
+	nue^.dato:=E;
+	nue^.sig:=L;
+	L:=nue;
+end;
+
+//___________________________________________________
+procedure CargarEgresados (var L:lista);
+var
+		E:Egresado;
+begin
+	LeerEgresado(E);
+	while (E.numero<>0) do
+	begin
+		AgregarAdelante(L,E);
+		LeerEgresado(E);
+	end;
+end;
+	
+//___________________________________________________
+
+procedure 	CargarVector(var vp:vector_premiados;var dimL:integer; E:Egresado);
+	var
+		i,pos:integer;
+	begin
+		pos:=1;
+		while(pos <= MaxRango) and (vp[pos].promedio > E.promedio) do 
+			pos:=pos +1;
+			
+		for i:= dimL downto pos do
+			VP[i+1]:=VP[i];
+		
+		VP[pos]:=E;
+		dimL:=dimL +1;
+	end;
+		
+//___________________________________________________
+
+
+procedure InformarPremiados (L:lista;var dimL:integer;var VP:Vector_Premiados);
+var
+E:Egresado;
+i:RangoPremiados;
+begin
+	while (l<>nil) do
+		CargarVector(vp,dimL,L^.dato);
+		L:=L^.sig;
+end;
+// P.P	
+var
+	L:lista;
+	VP:Vector_Premiados;
+	i:rangopremiados;
+	dimL:integer;
+begin
+	dimL:=0;
+	L:=nil;
+	InicializarVector(vp);
+	CargarEgresados(L);
+	InformarPremiados(L,dimL,VP);
+	for i := 1 to MaxRango do begin
+	writeln('----------------------------------');
+		writeln(vp[i].apellido);writeln(vp[i].numero);
+	end;
+end.
