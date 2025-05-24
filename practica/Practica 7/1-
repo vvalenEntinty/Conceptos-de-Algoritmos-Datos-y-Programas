@@ -1,0 +1,159 @@
+program ejercicio1;
+const
+	Max_genero=5;
+type
+	rango_genero=1..max_genero;
+	vector_contador=array[rango_genero]of integer;
+	
+	persona=record
+		dni:integer;
+		ayn:string[30];
+		edad:integer;
+		genero:integer;
+	end;
+	lista=^nodo;
+	nodo=record
+		dato:persona;
+		sig:lista;
+	end;
+	
+	
+procedure Inicializar_vector(var vc:vector_contador);
+var
+		i:rango_genero;
+begin
+	for i := 1 to max_genero do
+	begin
+		vc[i]:=0;
+	end;
+end;
+
+procedure Eliminar (var L:lista; dni:integer);
+var
+	actual,anterior:lista;
+begin
+	actual:=L;
+	while (actual <> nil) and (actual^.dato.dni <> dni) do
+	begin
+		anterior:=actual;
+		actual:=actual^.sig;
+	end;
+	if(actual<>nil) then
+	begin
+		if (actual=L) then
+			L:=L^.sig
+			else
+				anterior^.sig:=actual^.sig;
+			dispose(actual);
+		end
+		else
+			writeln('El dni ingresado no existe');
+	end;
+
+	procedure LeerPersona(var p:persona);
+	begin
+		writeln('ingresar el dni');readln(p.dni);
+		writeln('ingresar apellido y nombre');readln(p.ayn);
+		writeln('ingresar edad');readln(p.edad);
+		writeln('ingresar genero');readln(p.genero);
+	end;
+	
+	procedure AgregarAdelante (var L:lista; P:persona);
+	var
+		nue:lista;
+	begin
+		new(nue);
+		nue^.dato:=p;
+		nue^.sig:=L;
+		L:=nue;
+	end;
+
+	function Mas_Digitos_Pares(dni:integer):boolean;
+	var
+		dig,par,impar:integer;
+	begin
+		par:=0;impar:=0;
+		while (dni <> 0) do
+		begin
+			dig:=dni mod 10;
+			if (dig mod 2 =0) then
+				par:=par + 1
+				else
+					impar:=impar + 1;
+			dni:=dni div 10;
+		end;
+		Mas_Digitos_Pares:=(par > impar);
+	end;
+	
+	procedure Informar_Dos_Codigos(var cod1,cod2,max1,max2:integer; vc:vector_contador);
+	var
+		i:rango_genero;
+	begin
+		for i := 1 to max_genero do
+		begin
+			if (max1 < vc[i]) then
+			begin
+				max2:=max1;
+				max1:=vc[i];
+				cod2:=cod1;
+				cod1:=i;
+			end
+			else
+			if (max2< vc[i]) then
+			begin
+				max2:=vc[i];
+				cod2:=i;
+			end;
+end;
+writeln(cod1,' ',cod2);
+end;
+	
+	
+
+	procedure Informar (L:lista; var vc:vector_contador);
+	var
+		cod1,cod2,max1,max2:integer;
+		cont_Mas_Pares:integer;
+	begin
+		max1:=-1;max2:=-1;cont_mas_pares:=0;
+		cod1:=0;cod2:=0;
+		while (L<>nil) do
+		begin
+			if (Mas_Digitos_Pares(L^.dato.dni)) then
+				cont_mas_pares:=cont_mas_pares +1;
+			
+			vc[L^.dato.genero]:=vc[L^.dato.genero] +1;
+		
+		L:=L^.sig;
+	end;
+	writeln(cont_mas_pares);
+	Informar_Dos_Codigos(cod1,cod2,max1,max2,vc);
+end;
+
+	
+	
+	procedure Cargar_Personas(var L:lista);
+	var
+		P:persona;
+	begin
+		repeat
+			LeerPersona(P);
+			AgregarAdelante(L,P);
+		until(P.dni=3355);
+	end;
+	
+
+	
+	var
+		L:lista;
+		dni_eliminar:integer;
+		VC:vector_contador;
+	begin
+		L:=nil;
+		Inicializar_Vector(vc);
+		Cargar_Personas(L);
+		Informar(L,vc);
+		writeln('Ingrese un dni para elimnar de la lista: ');
+		readln(dni_eliminar);
+		Eliminar(L,dni_eliminar);
+	end.
