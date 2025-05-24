@@ -1,0 +1,172 @@
+{Un fabricante de dispositivos electronicos desea procesar informacion de repuestos que compro. 
+El fabricante dispone de una estructura de datosa con informacion de los 200 paises de los cuales
+ provienen repuestos en la que para cada codigo de pais(1..200) se tiene  su nombre.
+ a.Lea la informacion de los repuestos comprados y la almacene enn una estructura de datos adecuada 
+ de cada repuesto se lee codigo, precio y codigo del pais del que proviene(entre 1 y 200). La lectura 
+ finaliza al ingresar el codigo -1 (que no debe procesarse)
+ b.Una vez cargada la informacion, procese la erstructura de datos del inciso a e informe:
+ 1-cantida de paises para lo que la cantidad de repuestos comprados es menor que el promedio
+ de esputos comprados a todos los paises.
+ 2-para cada pais el nombre del pais y el precio del repuesto mas caro
+ 3-completo: la cantidad de repuestos que poseeen al menos 3 ceros en su codigo
+ Implemente el programa principal que invoque a los modulos de los incisos a y b e imprima los resultados}
+
+program parcial_8_6_2024;
+const
+	Max_Codigo=200;
+type
+	rango_codigo=1..Max_Codigo;
+	Vector_Paises=array[Rango_Codigo] of string;
+	Vector_contador=array[rango_codigo] of integer;
+	Vector_Precios=array[rango_codigo] of real;
+	
+	respuesto=record
+		codigo:integer;
+		precio:real;
+		codigo_pais:rango_codigo;
+	end;
+	
+	lista=^nodo;
+	nodo=record
+		dato:repuesto;
+		sig:lista;
+	end;
+	
+	procedure CargarNombres_Paises(var VP:vector_paises);// se dispone
+	
+	procedure LeerRepuesto (var R:repuesto);
+	begin
+		writeln('Ingresar el codigo');readln(R.codigo);
+		if (r.codigo <> - 1) then
+		begin
+			writeln('Ingresar el precio');readln(R.precio);
+			writeln('Ingresar el codigo del pais (1..200)');readln(R.codigo_pais);
+		end;
+	end;
+	
+	procedure AgregarAdelante (var L:lista; R:repuesto);
+	var
+		nue:lista;
+	begin
+		new(nue);
+		nue^.dato:=R;
+		nue^.sig:=L;
+		L:=nue;
+	end;
+	
+	procedure CargarRepuestos(var L:lista);
+	var
+		R:repuesto;
+	begin
+		LeerRepuesto(R);
+		while (R.codigo <> - 1) do 
+		begin
+			AgregarAdelante (L,R);
+			LeerRepuesto(R);
+		end;
+	end;
+	
+	procedure InicializarVector (var vc:vector_contador);
+	var
+		i:rango_codigo;
+	begin
+	 for i := 1 to Max_Codigo do 
+	 begin
+		vc[i]:=0;
+	end;
+end;
+
+	function TresCeros (codigo:integer):boolean;
+	var
+		cont,dig:integer;
+	begin
+		cont:=0;
+		while (codigo <> 0) do 
+		begin
+			dig:=codigo mod 10;
+			if (dig=0) then
+				cont:=cont +1;
+			codigo:=codigo div 10;
+		end;
+	TresCeros:=(cont >= 3);
+end;
+	
+	procedure 	IncializarVector_Precios(var vp:vector_precios);
+	var	
+		i:rango_codigo;
+	begin
+		 for i := 1 to max_codigo do
+		 begin
+			vp[i]:=0;
+		end;
+	end;
+	
+	procedure Imprimir_Cant_MenorQuePromedio (vc:vector_contador; promedio:real);
+	var
+		cant:integer;
+		i:rango_codigo;
+	begin
+		for i := 1 to max_codigo do
+		begin
+			if (vc[i]<promedio) then
+				cant:=cant + 1;
+		end;
+	writeln('Cantidad de paises que para los que la cantidad de repuestos es menor que el promedio de repuestos comprados a todos los paises: ',cant);
+	end;
+	
+	procedure 	Imprimir_ParaCada_Pais(vp:vector_precios; vpaises:vector_paises);
+	var
+		i:rango_codigo;
+	begin
+		for i := 1 to max_codigo do
+			writeln('Pais: ',vpaises[i],' repuesto mas caro: ',vp[i]);
+	end;
+	
+	procedure ProcesarRepuestos(L:lista,vpaises:vector_paises);
+	var
+		Cant_Tres_Ceros,total_repuestos:integer;
+		vc:vector_contador;
+		vp:vector_precios;
+		max,promedio:real;
+	begin
+		max:=0;Cant_Tres_Ceros:=0; promedio:=0; total_repuestos:=0;
+		InicializarVector(vc);
+		IncializarVector_Precios(vp); // falta inicializar 
+		while (L<>nil) do 
+		begin
+			// INCISO  B.1 
+			vc[L^.dato.codigo_pais]:=vc[L^.dato.codigo_pais]+ 1; {cuento la cantida de repuestos x pais}
+			Total_Repuestos:=Total_Repuestos +1;
+			
+			
+			// INCISO B.2		
+			if (Max < L^.dato.precio) then
+			begin
+			max:=L^.dato.precio; {guardo un maximo}
+			vp[L^.dato.codigo_pais]:= Max; {guardo ese maximo en el vector de precios maximos x pais}
+			end;
+			
+			// INCISO B.3	
+			if (TresCeros(L^.dato.codigo)) then {verifico si cumple la condicion de tener al menos 3 ceros en el codigo}
+				Cant_Tres_Ceros:=Cant_Tres_Ceros +1; 
+			
+			L:=L^.sig;
+	end;
+		Promedio:=Total_Repuestos/Max_codigo;
+		Imprimir_Cant_MenorQuePromedio(vc,Promedio); {IMPRIMO INCISO B.1}
+		Imprimir_ParaCada_Pais(vp,vpaises); {IMPRIMO INCISO B.2}
+		writeln('La cantidad de repuestos que poseen al menos 3 ceros en su codigo: ',Cant_Tres_Ceros); {IMPRIMO INCISO B.3}
+end;
+
+// P.P
+var
+	L:lista;
+	vp:vector_paises;
+begin
+	L:=nil;
+	CargarNombres_Paises(vp); // se dispone
+	CargarRepuestos(L); // INCISO A
+	ProcesarRepuestos(L,vp); // INCISO B
+end.
+		
+		
