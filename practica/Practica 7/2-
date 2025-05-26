@@ -1,0 +1,101 @@
+program ej;
+const
+	Max_Rango=6;
+type
+	Rango_Poliza=1..Max_Rango;
+	
+	cliente=record
+		codigo:integer;
+		dni:integer;
+		apellido:string[30];
+		nombre:string[30];
+		codigo_poliza:rango_poliza;
+		monto_basico:real;
+	end;
+	
+	vector_MontoAdicional=array[rango_poliza]of real; // se dispone
+	
+	lista=^nodo;
+	nodo=record
+		dato:cliente;
+		sig:lista;
+	end;
+	
+	procedure Vector_MontoAdicional (var vm:vector_montoadicional);// se dispone
+	
+	procedure LeerCliente (var c:cliente);
+	begin
+	writeln('ingresar el codigo');readln(c.codigo);
+	writeln('ingresar el dni');readln(c.dni);
+	writeln('ingresar el apellido');readln(c.apellido);
+	writeln('ingresar el nombre');readln(c.nombre);
+	writeln('ingresar el codigo de poliza (1..6)');readln(c.codigo_poliza);
+	writeln('ingresar el monto basico que abona mensualmente');readln(c.monto_basico);
+	end;
+	
+	procedure AgregarAdelante (var l:lista; c:cliente);
+	var
+		nue:lista;
+	begin
+		new(nue);
+		nue^.dato:=c;
+		nue^.sig:=l;
+	end;
+	
+	procedure CargarClientes (var L:lista);
+	var
+		c:cliente;
+	begin
+	repeat
+		LeerCliente(c);
+		AgregarAdelante (L,c);
+	until (c.codigo = 1122);
+end;
+	
+	procedure InformarCliente_Y_MontoCompleto (c:cliente; MontoAdicional:real);
+	begin
+	writeln('___________________________');
+		writeln('DNI: ',c.dni);
+		writeln('Apellido: ',c.apellido);
+		writeln('Nombre: ',c.nombre);
+		writeln('Monto Completo: ',c.monto_basico + MontoAdicional);
+	end;
+	
+	function AlMenos_Dos_Nueves (dni:integer):boolean;
+	var
+		cont:integer;
+		dig:integer;
+	begin
+		cont:=0;
+		while (dni <> 0) do 
+		begin
+			dig:= dni mod 10;
+			if (dig = 9 ) then
+				cont:= cont +1;
+		dni:=dni div 10;
+		end;
+		AlMenos_Dos_Nueves:=(cont >= 2);
+	end;
+	
+	procedure Informar (L:lista);
+	var
+		vm:vector_montoadicional;
+	begin
+		while (L<>nil) do
+		begin
+				InformarCliente_y_MontoCompleto(L^.dato,vm[L^.dato.codigo_poliza]);
+				if (AlMenos_dos_nueves(L^.dato.dni)) then
+					writeln('El cliente ',l^.dato.apellido,' ',l^.dato.nombre,' tiene al menos dos digitos 9 en su dni');
+				L:=L^.sig;
+		end;
+	end;
+	
+var
+	L:lista;
+	vm:vector_montoadicional;
+begin
+	L:=nil;
+	CargarMontoAdicional(vm);
+	CargarClientes(L);
+	Informar(L);
+end.
