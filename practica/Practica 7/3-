@@ -1,0 +1,86 @@
+{Una remisería dispone de información acerca de los viajes realizados durante el mes de mayo de 2020. De
+cada viaje se conoce: número de viaje, código de auto, dirección de origen, dirección de destino y
+kilómetros recorridos durante el viaje. Esta información se encuentra ordenada por código de auto y para
+un mismo código de auto pueden existir 1 o más viajes. Se pide:
+a. Informar los dos códigos de auto que más kilómetros recorrieron.
+b. Generar una lista nueva con los viajes de más de 5 kilómetros recorridos, ordenada por número de
+viaje.
+}
+
+program ejercicio;
+type
+    pais=record 
+        numero:integer;
+        codigo:integer;
+        direccion:string;
+        km:real;
+    end;
+    
+    lista=^nodo
+    nodo=record 
+        dato:pais;
+        sig:lista;
+    end;
+// MODULOS 
+procedure CargarPaises (var L:lista); // se dispone
+
+procedure Actualizar_Dos_Codigos (var cod1,cod2:integer; var Max_KM1,Max_KM2:real; codigo:integer; km:real);
+begin
+    if (km>Max_KM1) then
+    begin
+        Max_KM2:=Max_KM1;
+        Max_KM1:=km;
+        cod2:=cod1;
+        cod1:=codigo;
+    end
+    else    
+        if(km>Max_KM2) then
+        begin
+            Max_KM2:=km;
+            cod2:=codigo;
+        end;
+end;
+
+procedure Generar_NuevaLista (var L2:lista; p:pais);
+var
+    nue:lista;
+begin
+    new(nue);
+    nue^.dato:=p;
+    nue^.sig:=lista;
+    lista:=nue;
+end;
+
+procedure ProcesarPaises (L:lista; var L2:lista);
+var
+    cod_Actual:integer;
+    cod1,cod2:integer;
+    Max_KM1,Max_KM2:real;
+begin
+    
+    while (L<>nil) do
+    begin
+        cod_Actual:=L^.dato.codigo;
+        while (L<>nil) and (cod_Actual=L^.dato.codigo) do
+        begin
+            Actualizar_Dos_Codigos (cod1,cod2,max_km1,max_km2,cod_Actual,L^.dato.km);
+            
+            if (L^.dato.km > 5) then    
+                Generar_NuevaLista(L2,L^.dato);
+            
+            L:=L^.sig;
+        end;
+    end;
+    writeln('los dos códigos de auto que más kilómetros recorrieron ',cod1,' y ',cod2);
+end;
+    
+    
+// P.P
+var
+    L,L2:lista;
+begin
+    L:=nil;
+    L2:=nil;
+    CargarPaises(L);// se dispone
+    ProcesarPaises(L,L2);
+end.
