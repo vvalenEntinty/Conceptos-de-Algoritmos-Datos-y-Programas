@@ -1,0 +1,140 @@
+{
+una compáñia aerea desea analizar la informacion de los tickets vendidos a susclientes. la empresa
+cuenta con 1200 servicios de vuelo diferentes, en adelante denomidadas 'vuelo'.
+de cada ticket se conoce el codigo de vuelo (1 y 1200), DNI del cliente, pais de origen, pais de destino
+y valor del ticket. La informacion de los ticket se dispone en una estruvtura de datos adecuada y se encuentra ordenada por el dni del cliente
+(un cliente puede haber comprado mas de un ticket en distintos vuelos).
+-Cantidad de vuelos dentro de un mismo pais que hayan tenido mas de 50 pasajeros
+-DNI del cliente que mas dinero gasto en tickets
+-Cantidad de cleitnes cuyo DNI terminene en 0 o en 5
+}
+
+program parcial;
+const
+	Max_codigo=1200;
+type
+	rango_codigo=1..max_codigo; {rango de los codigos de los vuelos}
+	
+	ticket=record {defino todo los datos que sabemos del ticket}
+		codigo:rango_codigo;
+		dni:integer;
+		origen:string[30];
+		destino:string[30];
+		valor:real;
+	end;
+
+vector_contador=array [rango_codigo]of integer; {vector contador para ir sumando la cantidad de vuelos en el mismo pais}
+
+lista=^nodo;
+nodo=record
+	dato:ticket;
+	sig:lista;
+end;
+
+//______________________Modulos_______________________________
+
+procedure LeerTicket(var T:ticket);// se dispone
+procedure Cargar_tickets (var L:lista); // se dispone 
+
+procedure Inicializarvector (var vc:vector_contador); {inicializo el vector contador en 0}
+var
+	i:rango_codigo;
+begin
+	for i := 1 to max_codigo do
+		vc[i]:=0;
+end
+
+//_____________________________________________________________________
+
+function Cumple_0_5 (dni:integer):boolean; {verifico si el dni termina en 5 o en 0}
+var
+	dig:integer;
+begin
+	dig:= dni mod 10; {obtengo el ultimo numero del dni}
+	if (dig = 5) or (dig = 0) then {comparo si es 5 o 0}
+		Verificar_Terminacion:= true
+		else
+			Verificar_Terminacion:= false;
+{devuelvo un valor booleano de tipo true o false dependiendo de si cumple la condicion}
+end;
+
+//_____________________________________________________________________
+
+procedure 	Actualizar_DNI(var Dni_Max:integer; var Max_Gasto:real; ClienteAct:integer; valor:real); {actualizo el dni del cliente que mas gasto }
+begin
+	if (Max_Gasto < valor) then
+	begin
+		max_gasto:=valor; {actualizo el mas caro}
+		dni_max:=clienteact; {actualizo el dni}
+	end;
+end;
+
+//_____________________________________________________________________
+
+function Cantidad_Mismo_Pais (vc:vector_contador):integer;
+var
+	i:rango_codigo;
+	cantidad:integer;
+begin
+	cantidad:=0;
+	for i := 1 to max_codigo do 
+	begin
+		if (vc[i] > 50) then {si hay mas de 50 pasajeros}
+			cantidad:=cantidad + 1; {sumo cantidad}
+	end;
+	cantidad_mismo_pais:= cantidad; {retorno cantidad al p.p}
+end;
+
+
+
+
+//______________________Programa Principal_______________________________
+var
+	L,Lista_Aux:Lista;
+	vc:vector_contador;
+	Cantidad_Cumplen,Vuelos_MismoPais:integer;
+	DNI_Mas_Gasto,Cliente_Actual:integer;
+	Max_Gastado,Gastado_en_Tickets:real;
+begin
+	L:=nil;
+	
+	InicializarVector(vc);
+	cargar_Tickets(L); // se dispone
+	Lista_aux := L;
+	
+	{Inicializo las variables en 0}
+	Max_Gastado:=0; 
+	DNI_Mas_Gasto:=0;
+	Cantidad_Cumplen:=0;
+	Cantiadad_Vuelos_MismoPais:=0; 
+	
+	while (Lista_aux <> nil) do begin
+		Cliente_Actual:=Lista_Aux^.dato.dni;
+		
+		Gastado_en_Tickets:=0; 
+		
+		while (Lista_aux <>nil) and (Lista_aux^.dato.dni = Cliente_Actual) do begin {Corte de Control x clientes}
+			Gastado_en_Tickets:=Gastado_en_Tickets + Lista_aux^.dato.valor; 
+		
+			if (Lista_aux^.dato.origen = Lista_aux^.dato.destino) then
+				vc[lista_aux^.dato.codigo]:=vc[lista_aux^.dato.codigo] + 1;  {sumo en el vector contador +1 cuando origen y destino son del mismo pais}
+			Lista_aux:=Lista_aux^.sig; {Avanzo en la lista auxiliar}
+		end;
+		
+		If(Cumple_0_5(Cliente_Actual)) then {si el dni termina en 0 o en 5 la funcion devuelve true}
+			Cantidad_Cumplen:=Cantidad_Cumplen + 1; {sumo a cantidad de clientes que cumplen con esa condicion}
+		
+		Actualizar_DNI(DNI_Mas_Gasto,Max_Gastado,Cliente_Actual,Gastado_en_Tickets);	
+		{actualizo los valores del dni que mas gasto y lo mas gastado}
+		
+	end;
+	
+	{ Imprimo todos los datos }
+	Vuelos_MismoPais:=Cantidad_Mismo_Pais(vc);
+	writeln('Cantidad de vuelos dentro de un mnismo pais que hayan tenido mas de 50 pasajeros: ',Vuelos_MismoPais);
+	writeln('DNI del clieente que mas dniero gasto en tickets: ',dni_mas_gasto); 
+	writeln('Cantidad de clientes cuyo DNI terminen en 0 o en 5: ',cantidad_cumplen);
+end.
+
+
+
