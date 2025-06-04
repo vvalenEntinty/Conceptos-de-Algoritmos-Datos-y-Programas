@@ -1,0 +1,133 @@
+{
+
+Una panadería artesanal de La Plata vende productos de elaboración propia. La panadería agrupa a sus productos en 26 categorías (por ej.: 1. Pan; 2. Medialunas; 3. Masas finas; etc.).
+Para cada categoría se conoce su nombre y el precio por kilo del producto.
+La panadería dispone de información de todas las compras realizadas en el último año. De cada compra se conoce el DNI del cliente, 
+la categoría del producto (entre 1 y 26) y la cantidad de kilos comprados. La información se encuentra ordenada por DNI del cliente.
+a) Realizar un módulo que retorne la información de las categorías en una estructura de datos adecuada. La información se lee por teclado sin ningún orden.
+De cada categoría se lee el nombre, el código (1 a 26) y el precio por kilo del producto.
+b) Realizar un módulo que reciba la información de todas las compras, la información de las categorías, y retorne:
+DNI del cliente que más compras ha realizado.
+Monto total recaudado por cada categoría.
+Cantidad total de compras de clientes con DNI compuesto por, al menos, 3 dígitos pares.
+
+}
+
+
+program Parcial_TEMA1;
+const
+	Max_Categorias=26;
+type
+	rango_categorias=1..max_categorias;
+
+	categoria=record
+		nombre:string[20];
+		codigo:rango_categorias;
+		precio_kilo:real;
+	end;
+	
+	vector_categorias=array [rango_categorias] of categoria;
+	
+	vector_montos=array[rango_categorias]of real;
+	
+	cliente=record
+		dni:integer;
+		producto:rango_categorias;
+		kilos_comprados:real;
+	end;
+	
+	lista=^nodo;
+	nodo=record
+		dato:cliente;
+		sig:lista;
+	end;
+	
+	var
+		vcategorias:vector_categorias;
+		L:lista;
+		vmontos:vector_montos;
+		dni_max,cant_impares:integer; 
+		
+	begin
+		Cargar_Clientes(L); // se dispone 
+		Cargar_Categorias(vc);
+		Procesar(L,vcategorias,dni_max,vmontos,cant_Impares);
+	end.
+	
+	procedure InicializarVector_Montos (var vmonto:vector_montos);
+	var
+		i:rango_categorias;
+	begin
+		for i := 1 to max_categorias do vmonto[i]:=0;
+	end;
+	
+	procedure Cargar_Clientes (var L:lista); // se dispone
+
+	procedure Leer_Categoria (var c:categoria);
+	begin
+		read(c.nombre);
+		read(c.codigo);
+		read(c.precio_kilo);
+	end;
+	
+	procedure Cargar_Categorias (var vc:vector_categorias);
+	var
+		c:categoria;
+		i:rango_categorias;
+	begin
+		for i := 1 to max_categorias do begin
+			Leer_Categoria(c);
+			vc[c.codigo]:=c;
+		end;
+	end;
+
+	procedure Actualizar_DniMax (cant_compras:integer; dni_actual:integer; var cant_Max,dni_max:integer);
+	begin
+		if (cant_compras > cant_max) then begin
+			cant_max:=cant_compras;
+			dni_max:=dni_actual;
+		end;
+	end;
+
+	function Almenos_3pares (dni:integer):boolean;
+	var
+		contador:integer;
+	begin
+		contador:=0;
+		while (dni <> 0) and (contador <= 3) do begin
+			if (dni mod 2= 0) then
+				contador:= contador +1;
+			dni:=dni div 10;
+		end;
+		Almenos_3pares:= (contador <= 3) ;
+	end;
+
+	procedure Procesar(L:lista; vcategorias:vector_categorias; var dni_max:integer;
+													var vmontos:vector_montos; var cant_Impares:integer);
+	var
+		dni_actual:integer;
+		cant_compras,cant_max:integer;
+		cantidad_compras_almenos3pares:integer;
+	begin
+		cant_max:=-1; 
+		cantidad_compras_almenos3pares:=0;
+		
+		InicializarVector_Montos(vmontos);
+		
+		while (L<>nil) do begin
+			dni_actual:=L^.dato.dni;
+			cant_compras:=0;
+			while (L <>nil) and (dni_actual = L^.dato.dni) do begin
+				cant_compras:=cant_compras + 1;
+				
+				vmontos[L^.dato.producto]:=vmontos[L^.dato.producto]+ 
+															(L^.dato.kilos_comprados * vcategorias[L^.dato.producto].precio_kilos); {punto B}
+				
+				if (AlMenos_3pares(dni_actual;)) then
+					cantidad_compras_almenos3pares:=cantidad_compras_almenos3pares+1; 
+				
+				L:=L^.sig;
+			end;
+			Actualizar_DniMax (cant_compras,dni_actual,cant_Max,dni_max); {punto A}
+		end;
+end;
