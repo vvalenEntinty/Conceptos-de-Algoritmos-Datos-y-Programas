@@ -1,0 +1,33 @@
+procedure  procesar (L:lista);
+var
+	hect_soja,hect_total:integer;
+	tiempo,tiempo_max:integer;
+	i:integer;
+	e:empresa;
+	nombre_max:string;
+begin
+	tiempo:=-1;hect_soja:=0;
+	hect_sija:=0;
+	while(l<>nil) do begin
+		e:=l^.dato;
+		tiempo:=0;
+		for i := 1 to e.cant_cultivos do begin
+			if(e.cultivos[i].tipo='soja') then
+				hect_soja:=hect_soja + e.cultivos[i].dant.cant_hectareas
+				
+			else if (e.cultivos[i].tipo='maiz') then 
+				tiempo:=tiempo+e.cultivos[i].cant_meses
+				
+				else if (e.ciudad='san miguel del monte') and (e.cultivos[i].tipo='trigo') and (AlMenos_DosCeros(e.codigo)) then
+					writeln(e.nombre);
+				
+				Incrementar (e,i);
+			end;
+		Actualizar_Empresa (tiempo,tiempo_max,nombre_max,e.nombre);
+		L:=L^.sig;
+	end;
+end;
+
+
+
+
