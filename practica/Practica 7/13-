@@ -1,0 +1,135 @@
+program ejercicio;
+const
+  dimFT=35;
+type
+  cadena20=string[20];
+  rango_tematicas=1..dimFT;
+
+  Vector_Tematicas=array [1..dimFT]of string; // se dispone
+
+  libro=record
+    titulo:cadena20;
+    editorial:cadena20;
+    cantPag:integer;
+    anioEdicion:integer;
+    cantVentas:integer;
+    codTematica:rango_tematicas;
+  end;
+
+  info250Ventas=record
+    titulo:cadena20;
+    tematica:cadena20;
+    cantPaginas:integer;
+  end;
+
+
+listaDetalle=^nodo;
+  nodo=record
+    dato:info250Ventas;
+    sig:listaDetalle;
+  end;
+
+  infoPL=record
+    nomEditorial:cadena20;
+    anioMasAntiguo:integer;
+    cantEditados:integer;
+    totalVentas:integer;
+    mas250Ventas:listaDetalle;
+  end;
+   
+
+procedure cargarTematicas (var vt:vector_tematicas);// se dispone
+var
+  i:integer;
+begin
+  for i := 1 to dimFT do begin
+    vt[i]:= 'a';
+  end;
+end;
+
+
+procedure leerLibros(var Lib:libro);
+begin
+  writeln('Ingresar el titulo ');readln(Lib.titulo);
+  writeln('Ingresar el nombre de la editorial');readln(Lib.editorial);
+  writeln('Ingresar la cantidad de paginas');readln(Lib.cantPag);
+  writeln('Ingresar el anio de edicion');readln(Lib.anioEdicion);
+  writeln('Ingresar la cantiadd de veces que fue vendido');readln(Lib.cantVentas);
+  writeln('Ingresar el codigo del area tematica (1..35)');readln(Lib.codTematica);
+end;
+
+procedure agregarAdelante(var l:listaDetalle;  info250:info250ventas );
+var
+  nue:listaDetalle;
+begin
+  new(nue);
+  nue^.dato:=info250;
+  nue^.sig:=l;
+  l:=nue;
+end;
+
+procedure ActualizarMasAntiguo (var max:integer; anio:integer; var infoMasAntiguo:integer);
+begin
+  if (anio < max) then begin
+    max:=anio;
+    infoMasAntiguo:=max;
+  end;
+end;
+
+procedure CargarInfo250Ventas(var info:info250Ventas; lib:libro; vt:vector_tematicas);
+begin
+  info.titulo:=lib.titulo;
+  info.tematica:=vt[lib.codTematica];
+  info.cantPaginas:=lib.cantPag;
+end;
+
+
+{------------------------------------------------}
+
+procedure ProcesarInformacion(var info:infoPL;vt:vector_tematicas);
+var
+  lib:libro;
+  maxAntiguo:integer;
+  info250:info250Ventas;
+begin
+maxAntiguo:=-1;
+info.mas250ventas:=nil;
+  repeat
+  
+    leerLibros(lib);
+    
+    if(lib.editorial = 'Planeta Libros') then begin
+    
+      info.nomEditorial:=lib.editorial;
+      
+      ActualizarMasAntiguo(maxAntiguo,lib.anioEdicion,info.anioMasAntiguo);
+      
+      info.cantEditados:=info.cantEditados + 1;
+
+      info.totalVentas:=info.totalVentas + lib.cantVentas;
+
+      if (lib.cantVentas > 250) then begin
+        CargarInfo250Ventas(info250,lib,vt);
+        AgregarAdelante(info.mas250Ventas,info250);
+      end;
+    end;
+
+  until (lib.titulo = 'Relato');
+end;
+
+procedure Imprimir (info:infoPL);
+begin
+   writeln(info.nomEditorial);
+  while (info.mas250ventas <> nil) do begin
+    writeln(info.mas250ventas^.dato.titulo);
+    info.mas250ventas:=info.mas250ventas^.sig;
+end;
+   end;
+var 
+  info:infoPL;
+  vt:vector_tematicas;
+begin
+  cargarTematicas(vt);//se dispone
+  ProcesarInformacion(info,vt);
+  Imprimir(info);
+end.
