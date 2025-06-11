@@ -1,0 +1,141 @@
+{14. La biblioteca de la Universidad Nacional de La Plata necesita un programa para administrar información de
+préstamos de libros efectuados en marzo de 2020. Para ello, se debe leer la información de los préstamos
+realizados. De cada préstamo se lee: nro. de préstamo, ISBN del libro prestado, nro. de socio al que se prestó el
+libro, día del préstamo (1..31). La información de los préstamos se lee de manera ordenada por ISBN y finaliza
+cuando se ingresa el ISBN -1 (que no debe procesarse).
+Se pide:
+A) Generar una estructura que contenga, para cada ISBN de libro, la cantidad de veces que fue prestado.
+Esta estructura debe quedar ordenada por ISBN de libro.
+B) Calcular e informar el día del mes en que se realizaron menos préstamos.
+C) Calcular e informar el porcentaje de préstamos que poseen nro. de préstamo impar y nro. de socio par.}
+
+program ejercicio14;
+const
+  dimFM=31;
+type
+  marzo=1..dimFM;
+
+  prestamo=record
+    nroPrestamo:integer;
+    isbn:integer;
+    nroSocio:integer;
+    dia:marzo;
+  end;
+
+  infoISBN=record
+    isbnlibro:integer;
+    cantPrestado:integer;
+  end;
+
+  lista=^nodo;
+  nodo=record
+    dato:infoISBN;
+    sig:lista;
+  end;
+
+  vector_dias=array[marzo]of integer;
+  
+  procedure leerPrestamo (var p:prestamo);
+  begin
+    writeln('ingresar el numero de prestamo');readln(p.nroPrestamo);
+    writeln('ingresar el ISBN del libro');readln(p.isbn);
+    if (p.isbn <> - 1) then begin
+      writeln('ingresar el numero de socio');readln(p.nroSocio);
+       writeln('ingresar el dia del mes');readln(p.dia);
+    end;
+  end;
+  
+  procedure inicializarvd(var vd:vector_dias);
+  var
+    i:marzo;
+  begin
+    for i := 1 to dimFM do 
+      vd[i]:=0;
+  end;
+  
+  procedure insertarOrdenado (var l:lista; info:infoISBN);
+  var
+    nue,act,ant:lista;
+  begin
+    new(nue);
+    nue^.dato:=info;
+    act:=l;
+    while (act <> nil) and (act^.dato.isbnlibro < info.isbnlibro) do begin
+      ant:=act;
+      act:=act^.sig;
+    end;
+    if (act = l) then
+      l:=nue
+    else
+      ant^.sig:=nue;
+    nue^.sig:=act;
+  end;
+
+  function Cumple (socio,prestamo:integer):boolean;
+  var
+    impar,par:boolean;
+  begin
+    impar:=false; par:=false;
+    if (socio mod 2 = 0) then
+      par:=true;
+    if (prestamo mod 2 = 1) then
+      impar:=true;
+
+    Cumple:=(impar and par);
+  end;
+
+  procedure InformarMenosPrestamos (vd:vector_dias; var min,diamin:integer);
+  var
+    i:integer;
+  begin
+   for i := 1 to dimFM do begin
+     if (vd[i] < min ) then begin
+        min:=vd[i];
+        diamin:=i;
+      end;
+    end;
+  end;
+
+  procedure cargarPrestamos (var l:lista);
+  var
+    p:prestamo;
+    cant,isbnAct:integer;
+    info:infoISBN;
+    vd:vector_dias;
+    min,diamin:integer;
+    total,cantImpar_y_par:integer;
+  begin
+    inicializarvd(vd); min:=9999;
+    total:=0;cantImpar_y_par:=0;
+    leerPrestamo(p);
+    while (p.isbn <> -1) do begin
+      isbnAct:=p.isbn;
+      cant:=0;
+      while (p.isbn<>-1) and (p.isbn = isbnAct) do begin
+        cant:=cant + 1;
+
+        vd[p.dia]:=vd[p.dia] + 1;
+
+        total:= total + 1;
+        if (Cumple(p.nrosocio,p.nroprestamo)) then
+          cantImpar_y_par:=cantImpar_y_par +1;
+          
+      
+        leerPrestamo(p);
+      end;
+      info.isbnlibro:=isbnAct;
+      info.cantPrestado:=cant;
+      insertarOrdenado(l,info);
+    end;
+    InformarMenosPrestamos (vd,min,diamin);
+    writeln(diamin);
+
+    writeln('el porcentaje es: ',((cantImpar_y_par*100)/total):0:2);
+  end;
+
+  var
+    l:lista;
+  begin
+    l:=nil;
+    cargarPrestamos(l);
+  end.
