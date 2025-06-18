@@ -1,0 +1,165 @@
+program parcial;
+const
+  dimFP=2;
+type
+  rango_paises=1..dimFP;
+  
+  cadena20=string[20];
+
+  vector_Paises=array[rango_paises] of cadena20;
+
+  repuesto=record
+    codigo:integer;
+    precio:real;
+    codPais:rango_paises;
+  end;
+
+  lista=^nodo;
+  nodo=record
+    dato:repuesto;
+    sig:lista;
+  end;
+
+  vector_contRepuestos=array[rango_paises]of integer;
+  
+  vector_MasCaros=array[rango_paises] of real;
+
+  procedure inicializarPaises(var vp:vector_paises);
+  begin
+    vp[1]:='Argentina';
+    vp[2]:='Chile';
+  end;
+
+  procedure leerRepuesto(var r:repuesto);
+  begin
+    writeln('Ingresar el codigo');readln(r.codigo);
+    if (r.codigo <> -1) then begin
+      writeln('Ingresar el precio');readln(r.precio);
+      writeln('Ingresar el codigo del pais');readln(r.codPais);
+    end;
+  end;
+
+  procedure agregarAdelante(var pri:lista;r:repuesto);
+  var
+    nue:lista;
+  begin
+    new(nue);
+    nue^.dato:=r;
+    nue^.sig:=pri;
+    pri:=nue;
+  end;
+  
+  procedure cargarRepuestos(var l:lista);
+  var
+    r:repuesto;
+  begin
+    leerRepuesto(r);
+    while (r.codigo <> -1) do begin
+      agregarAdelante(l,r);
+      leerRepuesto(r);
+    end;
+  end;
+
+  procedure  MenorQuePromedio(vc:vector_contRepuestos; prom:real);
+  var
+    cont:integer;
+    i:rango_paises;
+  begin
+    cont:=0; 
+    for i :=1 to dimFP do 
+    begin
+      if (vc[i]>prom) then 
+        cont:=cont +1;
+    end;
+    writeln('cantidad de paises para los que la cantidad de repuestos compraods es menor que el promedio de repuestos comprados a todos los paises: ',cont);
+  end;
+
+  procedure inicializar(var vc:vector_contRepuestos);
+  var
+    i:rango_paises;
+  begin
+    for i :=1 to dimFP do 
+    begin
+      vc[i]:=0;
+    end;
+  end;
+
+  procedure ActualizarMasCaro (var v:vector_MasCaros;precio:real;codigo:integer);
+  begin
+      if (v[codigo]<precio) then
+        v[codigo]:=precio;
+  end;
+      
+  procedure Informar_RepuestosCaros(vpaises:vector_Paises; vcaros:vector_MasCaros);
+  var
+    i:rango_paises;
+  begin
+   for i := 1 to dimFP do begin
+      writeln('Nombre del Pais: ',vpaises[i], ' repuestos mas caro: ',vcaros[i]:0:2);
+    end;
+  end;
+
+  function tresCeros(codigo:integer):boolean;
+  var
+    cant,dig:integer;
+  begin
+    cant:=0;
+    while (codigo <> 0 ) do begin
+      dig:=codigo mod 10;
+      if (dig = 0) then
+        cant:= cant +1;
+      codigo:= codigo div 10;
+    end;
+      tresCeros:=(cant >= 3);
+  end;
+
+  procedure inicializarCaros (var vcaros:vector_MasCaros);
+  var
+    i:rango_paises;
+  begin
+    for i := 1 to dimFP do
+      vcaros[i]:=0;
+  end;
+
+  procedure procesarLista (l:lista; vpaises:vector_paises);
+  var
+    vcaros:vector_MasCaros;
+    vc:vector_contRepuestos;
+    totalRepuestos,contTresCeros:integer;
+    promedioRepuestos:real;
+  begin
+    promedioRepuestos:=0;
+    totalRepuestos:=0;
+    contTresCeros:=0;
+    inicializar(vc);
+    inicializarCaros(vcaros);
+    while (l<>nil) do begin
+  
+      vc[l^.dato.codPais]:=vc[l^.dato.codPais] +1; {sumo cantidad de repuestos por pais}
+      
+      totalRepuestos:=totalRepuestos + 1;
+
+      ActualizarMasCaro(vcaros,l^.dato.precio,l^.dato.codPais);
+
+      if (tresCeros(l^.dato.codigo)) then
+        contTresCeros:=contTresCeros +1;
+      
+      l:=l^.sig;
+    end;
+    promedioRepuestos:=(totalRepuestos/dimFP);
+    MenorQuePromedio(vc,promedioRepuestos);
+    
+    Informar_RepuestosCaros(vpaises,vcaros);
+
+    writeln('Cantidad de repuestos con al menos 3 ceros en su codigo: ',contTresCeros);
+  end;
+  
+  var
+    l:lista;
+    vp:vector_paises;
+  begin
+    inicializarPaises(vp);
+    l:=nil;
+    cargarRepuestos(l);
+    procesarLista(l,vp);
+  end.
